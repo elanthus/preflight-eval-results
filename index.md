@@ -94,6 +94,11 @@ only ever say yes isn't an evaluation.
 Next step, when warranted: a revised candidate profile, informed by the exploratory error
 analysis, evaluated under a newly frozen experiment against the same discipline.
 
+## Full aggregate reports
+
+- [Final result: reject](https://elanthus.github.io/preflight-eval-results/m3-development-reject.html)
+- [Initial result: insufficient evidence (pre-recovery)](https://elanthus.github.io/preflight-eval-results/m3-development-insufficient-evidence.html)
+
 ---
 
 *Only aggregate, disclosure-validated results appear above. Case identities, source
