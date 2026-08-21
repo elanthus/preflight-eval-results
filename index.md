@@ -67,8 +67,8 @@ reject — are published with digests.
 
 Separately, the exploratory (non-primary) analysis showed the candidate wasn't inert: its
 finding precision on fixed snapshots was 0.96 versus the baseline's 0.85, and across the
-experiment human adjudication validated 63 deduplicated real issues beyond the planted
-mechanisms at ~0.90 overall precision. The candidate changes reviewer behavior — it just
+experiment human adjudication validated 63 deduplicated real issues (59 of them beyond
+the planted mechanisms) at ~0.90 overall precision. The candidate changes reviewer behavior — it just
 doesn't detectably improve detection of the target defects, which is the thing adoption
 was gated on.
 
