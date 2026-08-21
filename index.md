@@ -16,7 +16,11 @@ bugs" from "flags more of everything."
 
 ## Method
 
-- **Corpus.** 15 development cases reconstructed from real dogfooding evidence, each with a
+- **Corpus.** 15 development cases reconstructed from real dogfooding evidence — the
+  observational record behind them is published separately as a
+  [two-week dogfooding case study](https://github.com/elanthus/agentic-preflight/blob/main/docs/dogfooding-case-study.md)
+  built from public pull-request records. Which findings became evaluation cases remains
+  private. Each case has a
   *vulnerable* snapshot (defect present) and a *fixed* snapshot (defect repaired). The fixed
   snapshot is a built-in false-positive control: a reviewer that claims the repaired defect
   is still present is measurably wrong.
@@ -89,11 +93,6 @@ only ever say yes isn't an evaluation.
 
 Next step, when warranted: a revised candidate profile, informed by the exploratory error
 analysis, evaluated under a newly frozen experiment against the same discipline.
-
-## Full aggregate reports
-
-- [Final result: reject](m3-development-reject.md)
-- [Initial result: insufficient evidence (pre-recovery)](m3-development-insufficient-evidence.md)
 
 ---
 
