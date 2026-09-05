@@ -9,6 +9,7 @@ from typing import Any, cast
 
 import pytest
 
+import preflight_evals.score as score_module
 from preflight_evals.adapter import AdapterCapabilities
 from preflight_evals.canonical import JsonValue, canonical_digest
 from preflight_evals.contract_models import parse_typed_contract
@@ -21,7 +22,7 @@ from preflight_evals.score import ScoringResult, _validate_scored_run, score_exp
 from preflight_evals.scorer_models import AdjudicationRecord, GoldRecord
 
 FIXTURES = Path(__file__).parent / "fixtures" / "contracts"
-PACKAGE = Path(__file__).resolve().parents[1] / "src" / "preflight_evals"
+PACKAGE = Path(cast(str, score_module.__file__)).resolve().parent
 
 
 def _model(name: str, variant: str = "full") -> object:
@@ -1065,6 +1066,7 @@ def test_scoring_module_cannot_import_or_invoke_reviewer_boundaries() -> None:
         {
             "preflight_evals.adapter",
             "preflight_evals.execution",
-            "preflight_evals.reviewer",
+            "preflight_evals.bundle",
+            "subprocess",
         }
     )

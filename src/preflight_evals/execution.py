@@ -35,6 +35,7 @@ from preflight_evals.holdout import development_records_digest, validate_holdout
 from preflight_evals.model_types import Condition, SnapshotName
 from preflight_evals.recovery import (
     RETRY_RECOVERY_MAXIMUM_ATTEMPTS,
+    is_terminal_record,
     validate_retry_recovery_source,
 )
 from preflight_evals.recovery import (
@@ -1755,15 +1756,7 @@ def _validate_record(
 
 
 def _is_terminal(experiment: ExperimentManifest, record: RunRecord) -> bool:
-    if record.status == "succeeded":
-        return True
-    if record.status in {"configuration_error", "adapter_error"}:
-        return True
-    if record.attempt >= experiment.retry_policy.maximum_attempts:
-        return True
-    if record.status == "invalid_output" and experiment.invalid_output_policy == "fail_run":
-        return True
-    return record.status not in experiment.retry_policy.retryable_failures
+    return is_terminal_record(experiment, record)
 
 
 def _configuration_failure() -> AdapterOutcome:

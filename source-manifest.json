@@ -67,9 +67,9 @@
     },
     {
       "path": "src/preflight_evals/execution.py",
-      "sha256": "ed0b161867639bfa47f0765fcae75e71a1f72403b20688ca8e63077b073fd63b",
+      "sha256": "5ca572077b9030f1d81bc2186f7080be6240affd83b97484365f7cf8568ee315",
       "source_sha256": "50f8ead9211fb15519c3fe5aeb8958b08898e7c436c77ed45de89e7ed0093302",
-      "adaptation": "Use the ExecutionError wrapper for retry-recovery terminal record validation."
+      "adaptation": "Use the ExecutionError wrapper for retry-recovery terminal record validation. Delegate terminal classification to the shared recovery predicate."
     },
     {
       "path": "src/preflight_evals/holdout.py",
@@ -127,7 +127,9 @@
     },
     {
       "path": "src/preflight_evals/statistics.py",
-      "sha256": "0c81b13967b547cc108352b83148177b6436b4fdb5ca94534af3b7262ffaa35a"
+      "sha256": "9132c09b72cb3c9c624d5b7d694e63e4e56bbf70f8e1dfb087ce9df53cd78158",
+      "source_sha256": "0c81b13967b547cc108352b83148177b6436b4fdb5ca94534af3b7262ffaa35a",
+      "adaptation": "Reuse a lazy read-only bootstrap index matrix across modes within each statistics calculation without retaining it globally."
     },
     {
       "path": "schemas/adjudication-decisions.schema.json",
@@ -209,23 +211,27 @@
     },
     {
       "path": "tests/test_bundle.py",
-      "sha256": "29563a4c6a785eabef2f304fb20a46053ba39250b32dc387fb6d967f81b0961c",
+      "sha256": "e80dac5299a34ce8995825bfd5f4e0eb53c925ec8d678b1ba17a188127c8e38d",
       "source_sha256": "89f7a58ef2556ebcccec6cd8c8f2c128f1bb02f688a2e4ce6fec6923de1441a5",
-      "adaptation": "Omitted tests of private corpus CLI commands and removed their unused imports; formatted remaining library tests."
+      "adaptation": "Omitted tests of private corpus CLI commands and removed their unused imports; formatted remaining library tests. Remove unused case/gold helpers left after private CLI tests were omitted."
     },
     {
       "path": "tests/test_leakage.py",
-      "sha256": "bcb9078bee5df6ed7d0dbceadfe3ee07f98eaf7f79defa135e4abd5089696709",
+      "sha256": "05d4060ff263bee14e53f4489a9c5c789cb58ef2d138dbd6ac09717bf6056ab4",
       "source_sha256": "387215095c14c171abec90910acd4211e9c4ee5d093578710382c90f61841e81",
-      "adaptation": "Omitted tests of private corpus CLI commands and removed their unused imports; formatted remaining library tests."
+      "adaptation": "Omitted tests of private corpus CLI commands and removed their unused imports; formatted remaining library tests. Remove unused private CLI argument and contract-writing helpers."
     },
     {
       "path": "tests/test_score.py",
-      "sha256": "e97acb58e0e968ab9dd2e0792ccf33d838c046b0faa4a2f2cdfced4637dd6d17"
+      "sha256": "ad8f50d5fb71017c3d859bf91cbed31502138accc1d7fc4c44deefd596639b3f",
+      "source_sha256": "e97acb58e0e968ab9dd2e0792ccf33d838c046b0faa4a2f2cdfced4637dd6d17",
+      "adaptation": "Resolve the imported scorer module and check real execution boundaries; Finding is an intentionally permitted data-model import."
     },
     {
       "path": "tests/test_statistics.py",
-      "sha256": "e44a6fa6dc752d342eabeed195b4b01f756e72d72be191053f9704660f39514c"
+      "sha256": "9074f66319ef97c82b7edba13b9d41ad05ddee06e63c047b0741b6ed23a810c7",
+      "source_sha256": "e44a6fa6dc752d342eabeed195b4b01f756e72d72be191053f9704660f39514c",
+      "adaptation": "Assert terminal status and unfinished-run accounting for failed recovery."
     },
     {
       "path": "tests/test_report.py",
@@ -329,7 +335,9 @@
     },
     {
       "path": "tests/fixtures/contracts/corpus-split/full.json",
-      "sha256": "1db3dcb5509d0b01c2a003d2a2f711fea58233b225f065000fe9599f168f826b"
+      "sha256": "e2760e08d51eca0384a741723514e5499689f8d15ef46f1bbd224ec4b537657e",
+      "source_sha256": "1db3dcb5509d0b01c2a003d2a2f711fea58233b225f065000fe9599f168f826b",
+      "adaptation": "Exercise six synthetic cases, a locked development case and two holdouts with recomputed optimum and digests; the minimum fixture is unchanged."
     },
     {
       "path": "tests/fixtures/contracts/corpus-split/invalid.json",
@@ -502,7 +510,7 @@
     },
     {
       "path": "tests/test_review_regressions.py",
-      "sha256": "0adeffbe5785dcf4bdda83b42721e128e68b9a1cf2f5ca59c431ab394c1ffed8",
+      "sha256": "d6bb0b98de2644a37cd3477dfc6391108d9ad1090626549d6a93dcb61da88bf3",
       "origin": "public implementation"
     },
     {

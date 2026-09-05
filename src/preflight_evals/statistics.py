@@ -11,6 +11,7 @@ from statistics import NormalDist
 from typing import Literal, cast
 
 import numpy as np
+from numpy.typing import NDArray
 
 from preflight_evals.attempt_metadata import AttemptMetadata
 from preflight_evals.canonical import JsonValue, canonical_digest
@@ -461,7 +462,7 @@ def calculate_statistics(
         ):
             raise SchemaError("statistics input provenance does not match the scored run")
     cases = _case_outcomes(experiment, scoring)
-    modes = tuple(_mode_metrics(cases, mode, bootstrap=True) for mode in _MODES)
+    modes = _primary_modes(cases)
     return StatisticsResult(
         experiment_id=experiment.experiment_id,
         experiment_digest=experiment.content_digest,
@@ -629,7 +630,7 @@ def calculate_combined_holdout_statistics(
         recovery_attempt_ceiling=recovery_attempt_ceiling,
     )
     cases = _case_outcomes(experiment, scoring)
-    modes = tuple(_mode_metrics(cases, mode, bootstrap=True) for mode in _MODES)
+    modes = _primary_modes(cases)
     return StatisticsResult(
         experiment_id=experiment.experiment_id,
         experiment_digest=experiment.content_digest,
@@ -924,8 +925,36 @@ def _planned_run_dict(run: PlannedRun) -> dict[str, JsonValue]:
     }
 
 
+def _resample_indices(case_count: int) -> NDArray[np.int64]:
+    generator = np.random.Generator(np.random.PCG64(BOOTSTRAP_SEED))
+    indices = generator.integers(
+        0, case_count, size=(BOOTSTRAP_RESAMPLES, case_count), dtype=np.int64
+    )
+    indices.setflags(write=False)
+    return indices
+
+
+def _primary_modes(cases: Sequence[_CaseOutcomes]) -> tuple[ModeMetrics, ...]:
+    # Share lazily within one calculation; do not retain large matrices globally.
+    cached: NDArray[np.int64] | None = None
+
+    def indices() -> NDArray[np.int64]:
+        nonlocal cached
+        if cached is None:
+            cached = _resample_indices(len(cases))
+        return cached
+
+    return tuple(
+        _mode_metrics(cases, mode, bootstrap=True, resample_indices=indices) for mode in _MODES
+    )
+
+
 def _mode_metrics(
-    cases: Sequence[_CaseOutcomes], mode: AnalysisMode, *, bootstrap: bool
+    cases: Sequence[_CaseOutcomes],
+    mode: AnalysisMode,
+    *,
+    bootstrap: bool,
+    resample_indices: Callable[[], NDArray[np.int64]] | None = None,
 ) -> ModeMetrics:
     cell_values = {
         cell: [_cell_values(case.cells[cell], mode) for case in cases] for cell in _CELL_ORDER
@@ -952,7 +981,7 @@ def _mode_metrics(
     )
     effects = _case_effects(cell_values)
     intervals = (
-        _bootstrap_intervals(effects)
+        _bootstrap_intervals(effects, resample_indices=resample_indices)
         if bootstrap and all(value is not None for values in effects.values() for value in values)
         else tuple(
             (name, ConfidenceInterval(lower=None, upper=None))
@@ -1061,10 +1090,11 @@ def _case_effects(
 
 def _bootstrap_intervals(
     effects: Mapping[str, Sequence[float | None]],
+    *,
+    resample_indices: Callable[[], NDArray[np.int64]] | None = None,
 ) -> tuple[tuple[str, ConfidenceInterval], ...]:
     case_count = len(next(iter(effects.values())))
-    generator = np.random.Generator(np.random.PCG64(BOOTSTRAP_SEED))
-    indices = generator.integers(0, case_count, size=(BOOTSTRAP_RESAMPLES, case_count))
+    indices = resample_indices() if resample_indices is not None else _resample_indices(case_count)
     intervals: list[tuple[str, ConfidenceInterval]] = []
     for name in (
         "vulnerable_lift",

@@ -731,62 +731,6 @@ def test_leakage_policy_rejects_global_or_duplicate_exception_selectors() -> Non
         )
 
 
-def _write_case_contracts(root: Path) -> Path:
-    case_dir = root / "cases" / "synthetic-leakage-case"
-    case_dir.mkdir(parents=True)
-    (case_dir / "case.yaml").write_text(json.dumps(_case_document()), encoding="utf-8")
-    (case_dir / "gold.yaml").write_text(json.dumps(_gold_document()), encoding="utf-8")
-    return case_dir
-
-
-def _bundle_arguments(tmp_path: Path, profile: Path, output: Path) -> list[str]:
-    worktree = tmp_path / "worktree"
-    prompt = tmp_path / "prompt.txt"
-    return [
-        "bundle",
-        "--case",
-        "synthetic-leakage-case",
-        "--snapshot",
-        "vulnerable",
-        "--condition",
-        "baseline",
-        "--cases-root",
-        str(tmp_path / "cases"),
-        "--worktree",
-        str(worktree),
-        "--worktree-digest",
-        bundle_module._compute_worktree_digest(worktree.resolve()),
-        "--output-root",
-        str(output),
-        "--run-id",
-        "run-cli-leakage",
-        "--request-id",
-        "request-cli-leakage",
-        "--created-at",
-        "2026-08-18T12:30:00Z",
-        "--prompt-template",
-        str(prompt),
-        "--prompt-name",
-        "review",
-        "--prompt-version",
-        "1",
-        "--profile-template",
-        str(profile),
-        "--profile-name",
-        "baseline",
-        "--profile-version",
-        "1",
-        "--model",
-        "synthetic-model",
-        "--input-token-limit",
-        "10000",
-        "--output-token-limit",
-        "1000",
-        "--adapter-version",
-        "synthetic-1",
-    ]
-
-
 @pytest.mark.parametrize("context", ["fixed_size = 3", "# fixed in v2", "# vulnerable parser"])
 def test_repository_labels_pass_build_and_reapproval(tmp_path: Path, context: str) -> None:
     draft = _draft(tmp_path, context=context)

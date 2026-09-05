@@ -298,3 +298,59 @@ def test_generic_split_parser_rejects_equal_score_wrong_tie_break() -> None:
     document["content_digest"] = canonical_digest(document)
     with pytest.raises(SchemaError, match="deterministic optimum"):
         parse_typed_contract("corpus-split", document)
+
+
+@pytest.mark.parametrize("variant", ["minimum", "full"])
+def test_corpus_split_fixture_boundaries(variant: str) -> None:
+    document = _document("corpus-split", variant)
+    split = corpus_split.CorpusSplit.from_dict(document)
+    assert split.to_dict() == document
+    if variant == "full":
+        assert len(split.ordered_holdout) == 2
+        assert split.locked_development
+    else:
+        assert len(split.ordered_holdout) == 1
+        assert not split.locked_development
+
+
+def test_statistics_reuses_bootstrap_matrix_without_global_retention() -> None:
+    from preflight_evals import statistics
+    from tests.test_statistics import _price_table
+
+    experiment, records, gold, scoring = _inputs()
+    with patch.object(
+        statistics, "_resample_indices", wraps=statistics._resample_indices
+    ) as sample:
+        first = statistics.calculate_statistics(
+            experiment, scoring, records, gold, _price_table(), provider="synthetic"
+        )
+        assert sample.call_count == 1
+        second = statistics.calculate_statistics(
+            experiment, scoring, records, gold, _price_table(), provider="synthetic"
+        )
+        assert sample.call_count == 2
+    assert first.to_dict() == second.to_dict()
+
+
+@pytest.mark.parametrize(
+    "status,attempt,terminal",
+    [
+        ("succeeded", 1, True),
+        ("adapter_error", 1, True),
+        ("configuration_error", 1, True),
+        ("provider_error", 1, False),
+        ("provider_error", 3, True),
+    ],
+)
+def test_execution_uses_shared_terminal_predicate(
+    status: str, attempt: int, terminal: bool
+) -> None:
+    from preflight_evals.recovery import is_terminal_record
+
+    experiment, records, _, _ = _inputs()
+    record = replace(records[0], status=status, attempt=attempt)
+    assert (
+        execution._is_terminal(experiment, record)
+        == is_terminal_record(experiment, record)
+        == terminal
+    )

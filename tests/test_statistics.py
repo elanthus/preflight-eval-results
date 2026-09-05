@@ -676,7 +676,7 @@ def test_statistics_accept_linked_recovery_and_use_effective_records() -> None:
     failed_target = next(run for run in failed_scoring.runs if run.run_id == target.run_id)
     assert failed_target.terminal_status == source_target.status
     assert failed_target.run_record_digest != source_target.content_digest
-    calculate_statistics(
+    failed_result = calculate_statistics(
         experiment,
         failed_scoring,
         source_records,
@@ -686,6 +686,16 @@ def test_statistics_accept_linked_recovery_and_use_effective_records() -> None:
         recovery_experiment=recovery,
         recovery_records=(failed_recovery,),
     )
+
+    assert dict(failed_result.terminal_status_counts) == {
+        "succeeded": len(source_records) - 1,
+        "adapter_error": 1,
+    }
+    # Terminal failure is completed work, not a missing run. Its billed usage remains.
+    assert failed_result.cost.completed_runs == len(source_records)
+    assert failed_result.cost.unfinished_runs == 0
+    assert failed_result.cost.actual_cost_usd == result.cost.actual_cost_usd
+    assert failed_result.cost.unaccounted_retry_attempts == 0
 
     with pytest.raises(SchemaError, match="one recovery record per selected"):
         calculate_statistics(

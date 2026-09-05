@@ -1,35 +1,83 @@
 {
   "schema_version": "1.0",
   "algorithm": "exhaustive-stratified-squared-deviation-v1",
-  "seed": 1,
-  "target_holdout_count": 1,
-  "locked_development": [],
+  "seed": 10,
+  "target_holdout_count": 2,
+  "locked_development": [
+    "synthetic-split-0"
+  ],
   "assignments": [
     {
-      "case_id": "case-a",
+      "case_id": "synthetic-split-0",
       "role": "development",
-      "repository": "owner/repo-a",
-      "defect_category": "correctness",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
       "context_size_band": "small"
     },
     {
-      "case_id": "case-b",
+      "case_id": "synthetic-split-1",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-2",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-3",
       "role": "holdout",
-      "repository": "owner/repo-b",
-      "defect_category": "security",
-      "context_size_band": "medium"
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-4",
+      "role": "holdout",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-5",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
     }
   ],
-  "ordered_holdout": ["case-b"],
-  "ordered_holdout_checksum": "sha256:540a43ffb8580639fdf6414e5dd35549f5bf02438ebffd870af64eaf2e5eefb5",
-  "balance": [
-    {"dimension": "repository", "value": "owner/repo-a", "total": 1, "development": 1, "holdout": 0},
-    {"dimension": "repository", "value": "owner/repo-b", "total": 1, "development": 0, "holdout": 1},
-    {"dimension": "defect_category", "value": "correctness", "total": 1, "development": 1, "holdout": 0},
-    {"dimension": "defect_category", "value": "security", "total": 1, "development": 0, "holdout": 1},
-    {"dimension": "context_size_band", "value": "medium", "total": 1, "development": 0, "holdout": 1},
-    {"dimension": "context_size_band", "value": "small", "total": 1, "development": 1, "holdout": 0}
+  "ordered_holdout": [
+    "synthetic-split-3",
+    "synthetic-split-4"
   ],
-  "objective_score": 6,
-  "content_digest": "sha256:f715c49685935fbbdd907e88dc478b2c07ea6dc6d25a68c4cc7c184071a68145"
+  "ordered_holdout_checksum": "sha256:9f80cb6b7a1f81732d89aca2ebe66e385dc1c3a9d71d73bfe6a29e8d1908269f",
+  "balance": [
+    {
+      "dimension": "repository",
+      "value": "example/project",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    },
+    {
+      "dimension": "defect_category",
+      "value": "evaluation_integrity",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    },
+    {
+      "dimension": "context_size_band",
+      "value": "small",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    }
+  ],
+  "objective_score": 0,
+  "content_digest": "sha256:87b478d0cb140a290ef81f6522dd806896c7437480195ad606b436f8f37992a6"
 }

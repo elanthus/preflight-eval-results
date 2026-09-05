@@ -52,3 +52,10 @@ Corpus freezing performs its exhaustive optimum search once and reuses that resu
 its private construction path. Generic parsing still recomputes the optimum, including the
 seeded tie-break. This avoids duplicate freeze work without trusting a self-supplied digest.
 Generic split validation remains combinatorial for large corpora.
+
+Bootstrap modes share one lazily allocated, read-only index matrix per statistics call. The
+matrix is released after that calculation; no process-global cache retains large arrays.
+The seed, index values, sample means, intervals and synthetic expected bytes are unchanged.
+Execution and recovery also share the same terminal-record predicate. Supplemental tests
+assert failed-recovery accounting, real scorer boundaries, and a larger synthetic split with
+a development lock. Unused scaffolding for the omitted private CLI tests was removed.
