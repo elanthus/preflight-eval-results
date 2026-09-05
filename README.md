@@ -63,11 +63,14 @@ operational corpus are not distributed. The adapter tests exercise real subproce
 timeouts, bounded output, minimal environments, and label rejection without contacting a
 provider. These are local integration tests, not evidence of live-provider performance.
 
-[source-manifest.json](source-manifest.json) pins the exported library and synthetic test
-files to source revision `7e8bebc77111da89461c4ca073fb472239d217dc`. Runtime modules are copied
-unchanged; test adaptations are recorded individually. New public replay code is versioned
-by this repository's Git history. No private Git history, case corpus, holdout membership,
-raw findings, or provider traces are exported.
+[source-manifest.json](source-manifest.json) records the exported library's original source
+revision `7e8bebc77111da89461c4ca073fb472239d217dc`, original hashes for adapted exports, and
+current hashes with individual repair notes. Its separate `public_files` inventory pins the
+replay entry point, inputs, expected output, packaging checks, and public regression tests.
+The checker rejects changed bytes and unlisted implementation assets. These hashes detect
+accidental drift; they do not authenticate a manifest modified together with its files.
+See [the public review repairs](methods/public-review-repairs.md). No private Git history,
+case corpus, holdout membership, raw findings, or provider traces are exported.
 
 ## Historical evidence
 

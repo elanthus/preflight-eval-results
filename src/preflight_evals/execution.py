@@ -732,7 +732,7 @@ def freeze_retry_recovery_experiment(
     if capabilities != source.adapter_capabilities:
         raise ExecutionError("retry recovery adapter capabilities must exactly match the source")
     records_by_id = {record.run_id: record for record in records}
-    digest = _terminal_records_digest(source, records)
+    digest = terminal_records_digest(source, records)
     selected = tuple(
         run
         for run in source.execution_order

@@ -4,12 +4,13 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from pathlib import Path
-from typing import Any, assert_never
+from typing import TYPE_CHECKING, Any, assert_never
 
 from preflight_evals.adjudicate import AdjudicationPacket, DecisionBatch
 from preflight_evals.attempt_metadata import AttemptMetadata
 from preflight_evals.corpus_split import CorpusSplit
 from preflight_evals.curator_models import CaseRecord, Catalog
+from preflight_evals.errors import SchemaError
 from preflight_evals.m2_validation import M2AssessmentBatch
 from preflight_evals.report import AggregateReport
 from preflight_evals.reviewer_models import Finding, PromptManifest, ReviewerOutput
@@ -76,7 +77,9 @@ def parse_typed_contract(name: ContractName, document: Mapping[str, Any]) -> Con
         return M2AssessmentBatch.from_dict(document)
     if name == "corpus-split":
         return CorpusSplit.from_dict(document)
-    assert_never(name)
+    if TYPE_CHECKING:
+        assert_never(name)
+    raise SchemaError("contract name is unsupported")
 
 
 def load_typed_contract(name: ContractName, path: Path) -> ContractModel:

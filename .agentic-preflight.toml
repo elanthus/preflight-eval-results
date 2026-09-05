@@ -12,22 +12,16 @@ paths = ["README.md", "index.md", "methods/**"]
 [diff]
 max_bytes = 2000000
 # Mechanically exported library/schema/fixture bytes are pinned in source-manifest.json.
-# Keep them in the PR; review the public integration and provenance here.
+# Keep unchanged exports in the PR; public repairs are included in the local review.
 exclude = [
-  "src/preflight_evals/__init__.py",
-  "src/preflight_evals/adapter.py",
   "src/preflight_evals/adjudicate.py",
   "src/preflight_evals/artifact_policy.py",
   "src/preflight_evals/attempt_metadata.py",
-  "src/preflight_evals/bundle.py",
   "src/preflight_evals/canonical.py",
   "src/preflight_evals/config.py",
-  "src/preflight_evals/contract_models.py",
-  "src/preflight_evals/corpus_split.py",
   "src/preflight_evals/curator_models.py",
   "src/preflight_evals/discovery.py",
   "src/preflight_evals/errors.py",
-  "src/preflight_evals/execution.py",
   "src/preflight_evals/holdout.py",
   "src/preflight_evals/leakage.py",
   "src/preflight_evals/m2_validation.py",
@@ -37,7 +31,6 @@ exclude = [
   "src/preflight_evals/report.py",
   "src/preflight_evals/request_contract.py",
   "src/preflight_evals/reviewer_models.py",
-  "src/preflight_evals/run_models.py",
   "src/preflight_evals/schema.py",
   "src/preflight_evals/score.py",
   "src/preflight_evals/scorer_models.py",
@@ -45,7 +38,6 @@ exclude = [
   "schemas/adjudication-decisions.schema.json",
   "schemas/adjudication-packet.schema.json",
   "schemas/adjudication.schema.json",
-  "schemas/aggregate-report.schema.json",
   "schemas/attempt-metadata.schema.json",
   "schemas/case.schema.json",
   "schemas/catalog.schema.json",
@@ -65,7 +57,6 @@ exclude = [
   "tests/test_leakage.py",
   "tests/test_score.py",
   "tests/test_statistics.py",
-  "tests/test_report.py",
   "tests/test_canonical.py",
   "tests/__init__.py",
   "tests/fixtures/contracts/adjudication/full.json",
@@ -77,7 +68,6 @@ exclude = [
   "tests/fixtures/contracts/adjudication-packet/full.json",
   "tests/fixtures/contracts/adjudication-packet/invalid.json",
   "tests/fixtures/contracts/adjudication-packet/minimum.json",
-  "tests/fixtures/contracts/aggregate-report/full.json",
   "tests/fixtures/contracts/aggregate-report/invalid.json",
   "tests/fixtures/contracts/aggregate-report/minimum.json",
   "tests/fixtures/contracts/attempt-metadata/full.json",

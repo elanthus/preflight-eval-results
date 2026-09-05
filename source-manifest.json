@@ -1,15 +1,19 @@
 {
-  "version": 1,
+  "version": 2,
   "source_revision": "7e8bebc77111da89461c4ca073fb472239d217dc",
-  "scope": "Reusable evaluation library and synthetic unit fixtures only; no corpus, protocols, artifacts, or Git history.",
+  "scope": "Reusable evaluation library with individually recorded public review repairs, synthetic fixtures and public replay assets; no private corpus, protocols, raw artifacts or Git history.",
   "files": [
     {
       "path": "src/preflight_evals/__init__.py",
-      "sha256": "0860542025dfee8d9f986e4d6e8037ebe46015806ec4c7748233918c356aca8c"
+      "sha256": "aafad7ee0b8acdd04dfc5a65c97691d91e3a96300993c2f5fc9a49b483d3768b",
+      "source_sha256": "0860542025dfee8d9f986e4d6e8037ebe46015806ec4c7748233918c356aca8c",
+      "adaptation": "Use the public distribution name for runtime version lookup."
     },
     {
       "path": "src/preflight_evals/adapter.py",
-      "sha256": "a149209dc3ec7ff00fb384cf888c496477b35ab663aef58c11515e70a1fc6bb3"
+      "sha256": "5ed68a53e7c2a6eb95dc5aaf71d25ce112064d9c4315ea8e42a6df094d527e5b",
+      "source_sha256": "a149209dc3ec7ff00fb384cf888c496477b35ab663aef58c11515e70a1fc6bb3",
+      "adaptation": "Preserve valid billing metadata on failed envelopes and classify non-UTF-8-canonical reviewer output before success."
     },
     {
       "path": "src/preflight_evals/adjudicate.py",
@@ -25,7 +29,9 @@
     },
     {
       "path": "src/preflight_evals/bundle.py",
-      "sha256": "10ba04c972e958ddc81c9b66c1be958057dc4040a5e2dbd5c02e33f25c38540e"
+      "sha256": "0f705e831512ee7f14b844d2579e7f5d97c2506a0763cb04cc3267d677a15c1f",
+      "source_sha256": "10ba04c972e958ddc81c9b66c1be958057dc4040a5e2dbd5c02e33f25c38540e",
+      "adaptation": "Prune impossible truncation candidates using completion-stable tokenizer prefixes; retain exhaustive checking within the conservative ceiling."
     },
     {
       "path": "src/preflight_evals/canonical.py",
@@ -37,11 +43,15 @@
     },
     {
       "path": "src/preflight_evals/contract_models.py",
-      "sha256": "307420750f17174f626b782c595362bfa8146849a5be2f3fe8f7106d8a871528"
+      "sha256": "f664449a578de67d0cd8aafe4fef81f1ec7dc1fefa9d57cf4f148b070b4ca45e",
+      "source_sha256": "307420750f17174f626b782c595362bfa8146849a5be2f3fe8f7106d8a871528",
+      "adaptation": "Keep static exhaustiveness checking and sanitize unknown runtime contract names as SchemaError."
     },
     {
       "path": "src/preflight_evals/corpus_split.py",
-      "sha256": "34be2c59457b813e06cc447f6fdc8b462229df28282674c1733dafeb9a60de3f"
+      "sha256": "341aafd3ef0625427506cfef06ae92ac3f9b16b496839bc9a9b6d907873b1a51",
+      "source_sha256": "34be2c59457b813e06cc447f6fdc8b462229df28282674c1733dafeb9a60de3f",
+      "adaptation": "Reuse the builder-computed optimum through private construction; generic parsing still recomputes and verifies it."
     },
     {
       "path": "src/preflight_evals/curator_models.py",
@@ -57,7 +67,9 @@
     },
     {
       "path": "src/preflight_evals/execution.py",
-      "sha256": "50f8ead9211fb15519c3fe5aeb8958b08898e7c436c77ed45de89e7ed0093302"
+      "sha256": "ed0b161867639bfa47f0765fcae75e71a1f72403b20688ca8e63077b073fd63b",
+      "source_sha256": "50f8ead9211fb15519c3fe5aeb8958b08898e7c436c77ed45de89e7ed0093302",
+      "adaptation": "Use the ExecutionError wrapper for retry-recovery terminal record validation."
     },
     {
       "path": "src/preflight_evals/holdout.py",
@@ -97,7 +109,9 @@
     },
     {
       "path": "src/preflight_evals/run_models.py",
-      "sha256": "f17848f0c674fabd5f8996b9ab44917a5064e217dfbea5ba74efd69eaa103132"
+      "sha256": "84333983c6f748af7e1f28a1e835a60bc25dfe60b01d3cce1d9ab964ed0518ec",
+      "source_sha256": "f17848f0c674fabd5f8996b9ab44917a5064e217dfbea5ba74efd69eaa103132",
+      "adaptation": "Preserve the JSON numeric representation of latency when validating and serializing run digests."
     },
     {
       "path": "src/preflight_evals/schema.py",
@@ -129,7 +143,9 @@
     },
     {
       "path": "schemas/aggregate-report.schema.json",
-      "sha256": "24f052b126071b6e416d1b626bf5f5947b0f6808ab6090c7ab65870b7aa995a5"
+      "sha256": "c400fa06ce30a513be02f6783bda8c93743664d5d952d4f98c11e749a7093591",
+      "source_sha256": "24f052b126071b6e416d1b626bf5f5947b0f6808ab6090c7ab65870b7aa995a5",
+      "adaptation": "Require valid HTTPS investigation links while retaining Markdown character restrictions."
     },
     {
       "path": "schemas/attempt-metadata.schema.json",
@@ -213,9 +229,9 @@
     },
     {
       "path": "tests/test_report.py",
-      "sha256": "8c82203b4055bcd33a90446835b96cd9674722956db3f775985b6289447089b2",
+      "sha256": "0c41c0296a9ce76392688414a6859d727d61269a236f95cd0f971543b4f12e6d",
       "source_sha256": "8c67643208e0de0fbeed89f8bb3a1aacbf9c6e6ed613942bfcf677a99aa24eb6",
-      "adaptation": "Replaced a private-case-shaped denylist test value with an explicitly synthetic identifier."
+      "adaptation": "Replaced a private-case-shaped denylist test value with an explicitly synthetic identifier. Use the unchanged minimum fixture for the existing report snapshot; new public regressions separately validate optional full-fixture coverage."
     },
     {
       "path": "tests/test_canonical.py",
@@ -263,7 +279,9 @@
     },
     {
       "path": "tests/fixtures/contracts/aggregate-report/full.json",
-      "sha256": "332fe3673a5d7123418d4b7928969ecc6713ec00bdcf769fab3c0e4d4ef7b51e"
+      "sha256": "1f2357d0312ed7a7674fbdbf7520c35bc83bea779485fc9ec8d6f635be3dda04",
+      "source_sha256": "332fe3673a5d7123418d4b7928969ecc6713ec00bdcf769fab3c0e4d4ef7b51e",
+      "adaptation": "Add the optional issue-discovery section and recompute the synthetic report identity; minimum.json already contains only required properties."
     },
     {
       "path": "tests/fixtures/contracts/aggregate-report/invalid.json",
@@ -444,6 +462,53 @@
     {
       "path": "tests/fixtures/gold-v2.json",
       "sha256": "d7a4ee36df8ab2467d118f95f5223b735a7487cf5ed8e931446e8edfbf863cb7"
+    }
+  ],
+  "public_files": [
+    {
+      "path": "examples/synthetic-v1/expected.json",
+      "sha256": "e90b359a8ee7df5416d2183acceab8766ffce55a5760dd81b9e93dd07fe1d596",
+      "origin": "public implementation"
+    },
+    {
+      "path": "examples/synthetic-v1/inputs.json",
+      "sha256": "e66c4ddb209883726a6a2463dc620343a36851dcfb0a3dac9e7fa25f42d77788",
+      "origin": "public implementation"
+    },
+    {
+      "path": "scripts/check_source_manifest.py",
+      "sha256": "de3b6dc35f79c0e9631126fc50d343ca6bf58c0f9719ebd659fced68e6bae312",
+      "origin": "public implementation"
+    },
+    {
+      "path": "scripts/verify_distribution.py",
+      "sha256": "34e7a324dd0df9b9f62fd9ce457bc1f0f09e610c9d1a039e72fdbc32605d9796",
+      "origin": "public implementation"
+    },
+    {
+      "path": "src/preflight_evals/public_replay.py",
+      "sha256": "191f985dd6507430bd0b1ba6f47aeb7fb1e43ab7693be882b510f43aa32285ce",
+      "origin": "public implementation"
+    },
+    {
+      "path": "tests/test_provider_boundary.py",
+      "sha256": "21f872e2128bd13c33dc18df44ddf3b5bcc47f8d15f3643315e9ccbbeb8e4d1e",
+      "origin": "public implementation"
+    },
+    {
+      "path": "tests/test_public_replay.py",
+      "sha256": "87a52e734f1a2a9388b7d479a84126e7e6a4bd27925b9461f8ab5f0e7b401379",
+      "origin": "public implementation"
+    },
+    {
+      "path": "tests/test_review_regressions.py",
+      "sha256": "0adeffbe5785dcf4bdda83b42721e128e68b9a1cf2f5ca59c431ab394c1ffed8",
+      "origin": "public implementation"
+    },
+    {
+      "path": "tests/test_source_manifest.py",
+      "sha256": "d118ea305d09b9da4726e855abf0a93f91f01a5272551c3b39c855fb548807aa",
+      "origin": "public implementation"
     }
   ]
 }

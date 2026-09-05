@@ -20,7 +20,12 @@ from typing import BinaryIO, Literal, Protocol, cast
 
 from preflight_evals.artifact_policy import configured_root_is_allowed
 from preflight_evals.bundle import BundleBuild, ReviewerSettings, parse_manifest_bytes
-from preflight_evals.canonical import JsonValue, canonical_digest, sha256_digest
+from preflight_evals.canonical import (
+    JsonValue,
+    canonical_digest,
+    canonical_json_bytes,
+    sha256_digest,
+)
 from preflight_evals.config import EvaluationConfig
 from preflight_evals.errors import BundleError, ConfigurationError, SchemaError
 from preflight_evals.reviewer_models import PromptManifest, ReviewerOutput
@@ -736,11 +741,12 @@ def _classify_capture(
             stderr_classification,
             metadata,
         )
-    metadata = _ProviderMetadata()
+    metadata = _provider_metadata_from_nonzero(capture.stdout)
     try:
         payload, metadata = _provider_payload(capture.stdout)
         document = _structured_document(payload)
         reviewer_output = ReviewerOutput.from_dict(document)
+        canonical_json_bytes(reviewer_output.to_dict())
     except UnicodeError:
         return _failed(
             capture,

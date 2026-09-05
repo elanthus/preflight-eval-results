@@ -244,9 +244,10 @@
           "run_id": {"type": "string", "pattern": "^run-[0-9a-f]{32}$"},
           "href": {
             "type": "string",
+            "format": "uri",
             "minLength": 1,
             "maxLength": 2000,
-            "pattern": "^[^\\u0000-\\u001f\\\\\\[\\]\\(\\)<>\\\"]+$"
+            "pattern": "^https://[^\\u0000-\\u001f\\\\\\[\\]\\(\\)<>\\\"]+$"
           }
         }
       }

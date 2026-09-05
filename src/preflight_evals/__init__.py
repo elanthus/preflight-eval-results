@@ -3,7 +3,7 @@
 from importlib.metadata import PackageNotFoundError, version
 
 try:
-    __version__ = version("agentic-preflight-evals")
+    __version__ = version("preflight-eval-reference")
 except PackageNotFoundError:  # pragma: no cover - source checkout without installation
     __version__ = "0+unknown"
 

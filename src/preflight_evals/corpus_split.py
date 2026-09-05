@@ -79,6 +79,16 @@ class CorpusSplit:
 
     @classmethod
     def from_dict(cls, document: Mapping[str, Any]) -> CorpusSplit:
+        return cls._from_dict(document)
+
+    @classmethod
+    def _from_dict(
+        cls,
+        document: Mapping[str, Any],
+        *,
+        optimum: tuple[tuple[str, ...], int] | None = None,
+    ) -> CorpusSplit:
+        """Reuse an optimum only for the private freeze builder's own document."""
         raw = dict(document)
         supplied_digest = raw.pop("content_digest", None)
         derived_digest = canonical_digest(cast(dict[str, JsonValue], raw))
@@ -122,10 +132,12 @@ class CorpusSplit:
             objective_score=cast(int, data["objective_score"]),
             content_digest=cast(str, data["content_digest"]),
         )
-        model._validate_relationships()
+        model._validate_relationships(optimum=optimum)
         return model
 
-    def _validate_relationships(self) -> None:
+    def _validate_relationships(
+        self, *, optimum: tuple[tuple[str, ...], int] | None = None
+    ) -> None:
         if self.schema_version != SCHEMA_VERSION or self.algorithm != ALGORITHM:
             raise SchemaError("corpus split uses an unsupported version or algorithm")
         identifiers = [item.case_id for item in self.assignments]
@@ -152,11 +164,15 @@ class CorpusSplit:
             raise SchemaError("ordered holdout checksum does not match membership")
         if self.balance != _balance(self.assignments):
             raise SchemaError("corpus split balance does not match assignments")
-        expected_holdout, expected_score = _best_holdout(
-            self.assignments,
-            seed=self.seed,
-            holdout_count=self.target_holdout_count,
-            locked_development=frozenset(self.locked_development),
+        expected_holdout, expected_score = (
+            optimum
+            if optimum is not None
+            else _best_holdout(
+                self.assignments,
+                seed=self.seed,
+                holdout_count=self.target_holdout_count,
+                locked_development=frozenset(self.locked_development),
+            )
         )
         if holdout != set(expected_holdout) or self.objective_score != expected_score:
             raise SchemaError("corpus split is not the deterministic optimum")
@@ -287,7 +303,9 @@ def freeze_corpus_split(
         "balance": [item.to_dict() for item in _balance(assignments)],
         "objective_score": objective_score,
     }
-    return CorpusSplit.from_dict({**raw, "content_digest": canonical_digest(raw)})
+    return CorpusSplit._from_dict(
+        {**raw, "content_digest": canonical_digest(raw)}, optimum=(best, objective_score)
+    )
 
 
 def _order_key(seed: int, case_id: str) -> str:

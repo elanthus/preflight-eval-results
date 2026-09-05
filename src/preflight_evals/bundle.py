@@ -770,7 +770,22 @@ def _limit_text(
             low = midpoint + 1
         else:
             high = midpoint - 1
-    for kept in range(byte_ceiling, -1, -1):
+    # A stable prefix survives every completion, including our marker and tail.
+    # If that prefix alone exceeds the budget, every longer candidate is impossible.
+    # Binary search only narrows this conservative ceiling: token fit itself is
+    # non-monotonic, so examine every remaining candidate in descending order.
+    low, high = 0, byte_ceiling
+    token_ceiling = byte_ceiling
+    while low <= high:
+        midpoint = (low + high) // 2
+        head_count = midpoint if policy == "head" else (midpoint + 1) // 2
+        stable, _ = tokenizer.encoder.encode_with_unstable(text[:head_count], disallowed_special=())
+        if len(stable) > token_limit:
+            token_ceiling = midpoint - 1
+            high = midpoint - 1
+        else:
+            low = midpoint + 1
+    for kept in range(token_ceiling, -1, -1):
         rendered = candidate(kept)
         if _fits(rendered, tokenizer, byte_limit=byte_limit, token_limit=token_limit):
             return rendered, True

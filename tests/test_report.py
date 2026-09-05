@@ -198,9 +198,9 @@ def test_public_report_is_byte_stable_and_matches_json_snapshot(
     )
 
     assert second.canonical_bytes() == first.canonical_bytes()
-    assert first.canonical_bytes() == (CONTRACT_FIXTURES / "full.json").read_bytes().removesuffix(
-        b"\n"
-    )
+    assert first.canonical_bytes() == (
+        CONTRACT_FIXTURES / "minimum.json"
+    ).read_bytes().removesuffix(b"\n")
     document = first.to_dict()
     assert document["content_digest"] == canonical_digest(
         {

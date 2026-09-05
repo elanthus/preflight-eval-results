@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from collections.abc import Mapping
 from dataclasses import dataclass
+from dataclasses import field as dataclass_field
 from datetime import datetime
 from pathlib import PurePosixPath
 from typing import Any, cast
@@ -98,6 +99,7 @@ class RunRecord:
     raw_artifacts: RawArtifacts
     identity: ExecutionIdentity | None
     content_digest: str | None
+    _latency_json: int | float | None = dataclass_field(default=None, repr=False, compare=False)
 
     @classmethod
     def from_dict(cls, document: Mapping[str, Any]) -> RunRecord:
@@ -118,6 +120,7 @@ class RunRecord:
             started_at=iso_datetime(cast(str, data["started_at"]), field="started_at"),
             ended_at=iso_datetime(cast(str, data["ended_at"]), field="ended_at"),
             monotonic_latency_ms=float(cast(int | float, data["monotonic_latency_ms"])),
+            _latency_json=cast(int | float, data["monotonic_latency_ms"]),
             provider_request_id=cast(str | None, data["provider_request_id"]),
             seed=cast(int | None, data["seed"]),
             reviewer_output=(
@@ -179,7 +182,12 @@ class RunRecord:
             "status": self.status,
             "started_at": _iso_string(self.started_at),
             "ended_at": _iso_string(self.ended_at),
-            "monotonic_latency_ms": self.monotonic_latency_ms,
+            "monotonic_latency_ms": (
+                self._latency_json
+                if self._latency_json is not None
+                and self._latency_json == self.monotonic_latency_ms
+                else self.monotonic_latency_ms
+            ),
             "provider_request_id": self.provider_request_id,
             "seed": self.seed,
             "reviewer_output": (

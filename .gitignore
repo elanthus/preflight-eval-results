@@ -8,5 +8,6 @@ __pycache__/
 htmlcov/
 dist/
 build/
+artifacts/
 replay-output/
 _site/

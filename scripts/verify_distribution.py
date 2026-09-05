@@ -54,6 +54,16 @@ def main() -> None:
         outside.mkdir()
         run(
             str(python),
+            "-c",
+            "from importlib.metadata import version; "
+            "import preflight_evals; "
+            "assert preflight_evals.__version__ == version('preflight-eval-reference'); "
+            "from jsonschema import FormatChecker; "
+            "assert not FormatChecker().conforms('not a valid URI', 'uri')",
+            cwd=outside,
+        )
+        run(
+            str(python),
             "-m",
             "preflight_evals.public_replay",
             "--out",
