@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0",
+  "batch_id": "batch-431588ca419b4f9f16517a097af46689",
+  "packet_id": "packet-11111111111111111111111111111111",
+  "packet_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "role": "resolution",
+  "adjudicator": "synthetic-resolver",
+  "submitted_at": "2026-08-18T12:20:00Z",
+  "decisions": [
+    {
+      "decision_id": "decision-synthetic-resolution",
+      "assignment_id": "assignment-33333333333333333333333333333333",
+      "classification": "incorrect_cause",
+      "decided_at": "2026-08-18T12:15:00Z",
+      "rationale": "Synthetic resolution rationale",
+      "supersedes": null,
+      "resolves": ["decision-synthetic-primary", "decision-synthetic-calibration"]
+    }
+  ],
+  "content_digest": "sha256:431588ca419b4f9f16517a097af46689f3b2e5f302fd0515b35173b032e71843"
+}

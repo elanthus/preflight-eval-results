@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-synthetic",
+  "experiment_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "invalid_output_policy": "retry_then_fail",
+  "runs": [],
+  "content_digest": "not-a-digest"
+}

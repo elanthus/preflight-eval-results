@@ -1,0 +1,32 @@
+{
+  "schema_version": "1.0",
+  "run_id": "run-synthetic-one",
+  "experiment_id": "experiment-synthetic",
+  "prompt_manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "output_schema_version": "1.0",
+  "attempt": 1,
+  "status": "succeeded",
+  "started_at": "2026-01-01T00:00:00Z",
+  "ended_at": "2026-01-01T00:00:01Z",
+  "monotonic_latency_ms": 1000,
+  "provider_request_id": null,
+  "seed": null,
+  "reviewer_output": {"schema_version": "1.0", "findings": []},
+  "validation_errors": [],
+  "usage": {
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_tokens": null
+  },
+  "price_table_version": null,
+  "cost": {"currency": "USD", "input": null, "output": null, "total": null},
+  "subprocess": {"exit_status": 0, "stderr_classification": "none"},
+  "retry_history": [],
+  "raw_artifacts": {
+    "request_path": null,
+    "request_digest": null,
+    "response_path": null,
+    "response_digest": null
+  }
+}

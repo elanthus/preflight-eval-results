@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "case_id": "synthetic-case",
+  "display_name": "Synthetic path validation case",
+  "defect_category": "correctness",
+  "source": {"repository": "example/project", "pull_request": 1},
+  "commits": {
+    "base": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "vulnerable": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "repair": "cccccccccccccccccccccccccccccccccccccccc",
+    "fixed": "dddddddddddddddddddddddddddddddddddddddd"
+  },
+  "snapshots": {
+    "vulnerable": {"commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    "fixed": {"commit": "dddddddddddddddddddddddddddddddddddddddd"}
+  },
+  "context_policy": {
+    "includes": ["src/example.py"],
+    "excludes": [],
+    "per_file_byte_limit": 10000,
+    "per_file_token_limit": 2000,
+    "total_token_limit": 4000,
+    "symlink_policy": "reject",
+    "binary_policy": "reject",
+    "truncation_policy": "reject"
+  },
+  "eligibility": "development",
+  "verification": {
+    "status": "verified",
+    "verifier": "synthetic-curator",
+    "verified_at": "2026-01-01",
+    "method": "synthetic fixture inspection"
+  },
+  "estimated_input": {
+    "tokenizer": "synthetic-tokenizer-v1",
+    "vulnerable_tokens": 100,
+    "fixed_tokens": 90
+  }
+}

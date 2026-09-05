@@ -1,0 +1,20 @@
+schema_version = "1"
+
+[artifacts]
+ephemeral = "artifacts/worktrees"
+resumable = "artifacts/runs"
+raw_traces = "artifacts/provider-traces"
+aggregate_reports = "reports/aggregate"
+
+[reporting]
+# Public case-derived cells smaller than this fail disclosure validation.
+minimum_public_cell_size = 5
+
+[adapter]
+executable = "codex"
+review_arguments = ["exec", "--ephemeral", "--ignore-user-config", "--ignore-rules", "--sandbox", "read-only", "--skip-git-repo-check", "--model", "{model}", "-"]
+version_arguments = ["--version"]
+working_directory = "artifacts/tmp/adapter-sandbox"
+probe_timeout_seconds = 10
+maximum_stdout_bytes = 1000000
+maximum_stderr_bytes = 64000

@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/adjudication-decisions.schema.json",
+  "title": "Blind adjudication decision batch",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "batch_id",
+    "packet_id",
+    "packet_digest",
+    "role",
+    "adjudicator",
+    "submitted_at",
+    "decisions",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "batch_id": {"type": "string", "pattern": "^batch-[a-f0-9]{32}$"},
+    "packet_id": {"type": "string", "pattern": "^packet-[a-f0-9]{32}$"},
+    "packet_digest": {"$ref": "#/$defs/digest"},
+    "role": {"enum": ["primary", "calibration", "resolution"]},
+    "adjudicator": {"type": "string", "minLength": 1, "maxLength": 120},
+    "submitted_at": {"type": "string", "format": "date-time"},
+    "decisions": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "decision_id",
+          "assignment_id",
+          "classification",
+          "decided_at",
+          "rationale",
+          "supersedes",
+          "resolves"
+        ],
+        "properties": {
+          "decision_id": {"type": "string", "pattern": "^decision-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+          "assignment_id": {"type": "string", "pattern": "^assignment-[a-f0-9]{32}$"},
+          "classification": {
+            "enum": ["match", "symptom_only", "incorrect_cause", "uncertain"]
+          },
+          "decided_at": {"type": "string", "format": "date-time"},
+          "rationale": {"type": "string", "minLength": 1, "maxLength": 5000},
+          "supersedes": {
+            "oneOf": [
+              {"type": "null"},
+              {"type": "string", "pattern": "^decision-[a-z0-9]+(?:-[a-z0-9]+)*$"}
+            ]
+          },
+          "resolves": {
+            "type": "array",
+            "maxItems": 2,
+            "uniqueItems": true,
+            "items": {"type": "string", "pattern": "^decision-[a-z0-9]+(?:-[a-z0-9]+)*$"}
+          }
+        }
+      }
+    },
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  }
+}

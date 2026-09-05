@@ -1,0 +1,51 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-synthetic",
+  "experiment_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "invalid_output_policy": "retry_then_fail",
+  "runs": [
+    {
+      "run_id": "run-synthetic-fixed-candidate",
+      "case_id": "synthetic-case",
+      "snapshot": "fixed",
+      "condition": "candidate",
+      "repetition": 1,
+      "input_digests": {
+        "run_record": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "planned_run": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "gold": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "adjudications": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "terminal_status": "succeeded",
+      "outcome": {
+        "name": "fixed_repaired_mechanism_false_positive",
+        "primary": true,
+        "pessimistic": true,
+        "optimistic": true
+      },
+      "findings": [
+        {
+          "finding_id": "F001",
+          "finding_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+          "duplicate_of": null,
+          "checks": {
+            "path": "exact",
+            "accepted_path": "src/example.py",
+            "location": true,
+            "category": true,
+            "severity": true
+          },
+          "mechanisms": [
+            {
+              "mechanism_id": "mechanism-synthetic",
+              "decision": "match",
+              "adjudication_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222"
+            }
+          ],
+          "disposition": "repaired_mechanism_claim"
+        }
+      ]
+    }
+  ],
+  "content_digest": "sha256:003b7017c2f64f861f384d664423faee356944276f27d6ad4bcd04e064824639"
+}

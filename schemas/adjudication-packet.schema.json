@@ -1,0 +1,86 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/adjudication-packet.schema.json",
+  "title": "Blind mechanism adjudication packet",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "rubric_version",
+    "exported_at",
+    "calibration_size",
+    "items",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "packet_id": {"type": "string", "pattern": "^packet-[a-f0-9]{32}$"},
+    "rubric_version": {"$ref": "#/$defs/digest"},
+    "exported_at": {"type": "string", "format": "date-time"},
+    "calibration_size": {"type": "integer", "minimum": 0},
+    "items": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["assignment_id", "calibration", "finding", "rubric"],
+        "properties": {
+          "assignment_id": {"type": "string", "pattern": "^assignment-[a-f0-9]{32}$"},
+          "calibration": {"type": "boolean"},
+          "finding": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "title",
+              "explanation",
+              "file_path",
+              "severity",
+              "defect_category",
+              "failure_mechanism",
+              "confidence",
+              "evidence"
+            ],
+            "properties": {
+              "title": {"type": "string", "minLength": 1, "maxLength": 200},
+              "explanation": {"type": "string", "minLength": 1, "maxLength": 4000},
+              "file_path": {"$ref": "#/$defs/path"},
+              "start_line": {"type": "integer", "minimum": 1},
+              "end_line": {"type": "integer", "minimum": 1},
+              "severity": {"enum": ["low", "medium", "high", "critical"]},
+              "defect_category": {
+                "enum": ["correctness", "security", "evaluation_integrity", "operational_contract"]
+              },
+              "failure_mechanism": {"type": "string", "minLength": 1, "maxLength": 2000},
+              "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+              "evidence": {
+                "type": "array",
+                "minItems": 1,
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["source_type", "reference"],
+                  "properties": {
+                    "source_type": {"enum": ["file", "diff", "tool"]},
+                    "reference": {"type": "string", "minLength": 1, "maxLength": 500}
+                  }
+                }
+              }
+            }
+          },
+          "rubric": {"type": "string", "minLength": 1, "maxLength": 2000}
+        }
+      }
+    },
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"},
+    "path": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*(?:^|/)\\.{1,2}(?:/|$))(?!.*//)(?!.*\\\\)(?!.*\\u0000)[^/]+(?:/[^/]+)*$"
+    }
+  }
+}

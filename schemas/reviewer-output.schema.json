@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/reviewer-output.schema.json",
+  "title": "Structured reviewer output",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "findings"],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "findings": {
+      "type": "array",
+      "items": {"$ref": "https://agentic-preflight-evals.local/schemas/finding.schema.json"}
+    }
+  }
+}

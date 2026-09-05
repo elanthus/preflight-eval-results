@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "case_id": "synthetic-case",
+  "expected_behavior": {"vulnerable": "Synthetic", "fixed": "Synthetic"},
+  "expected_mechanisms": [
+    {
+      "mechanism_id": "invalid id",
+      "description": "Synthetic mechanism",
+      "adjudication_rubric": "Synthetic rubric"
+    }
+  ],
+  "acceptable_locations": [{"path": "/absolute/private.py"}],
+  "accepted_defect_categories": ["correctness"],
+  "severity_range": {"minimum": "medium", "maximum": "high"},
+  "forbidden_expected_phrases": [],
+  "fixed_only_fingerprints": [],
+  "provenance": {"excerpt": "Synthetic provenance", "source_record_id": "synthetic-record"},
+  "curator_notes": "",
+  "adjudication": {"required": false, "accepted_alternative_matches": []}
+}

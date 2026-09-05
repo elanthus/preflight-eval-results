@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "packet_id": "packet-invalid",
+  "rubric_version": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "exported_at": "2026-08-18T12:00:00Z",
+  "calibration_size": 0,
+  "items": [],
+  "content_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

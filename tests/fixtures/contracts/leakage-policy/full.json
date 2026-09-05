@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "leakage-v1.1",
+  "case_id": "synthetic-case",
+  "additional_sensitive_shas": ["eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"],
+  "repair_texts": ["Synthetic retained repair message"],
+  "evidence_fragments": ["Synthetic evidence ledger fragment"],
+  "exceptions": [
+    {
+      "exception_id": "exception-synthetic-one",
+      "rule_id": "LEAKAGE_EXPECTED_PHRASE",
+      "location_class": "profile",
+      "match_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "expires_at": "2027-01-01T00:00:00Z",
+      "actor": "synthetic-operator",
+      "reason": "Synthetic fixture exception"
+    }
+  ]
+}

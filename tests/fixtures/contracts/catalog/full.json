@@ -1,0 +1,49 @@
+{
+  "schema_version": "1.0",
+  "corpus_id": "synthetic-full-corpus",
+  "source_evidence": "https://github.com/example/project/pull/1",
+  "generated_at": "2026-01-02T03:04:05Z",
+  "visibility": "curator_and_scorer_only",
+  "records": [
+    {
+      "case_id": "synthetic-paired-case",
+      "finding_id": "F001",
+      "finding_id_source": "local_ordinal",
+      "repository": "example/project",
+      "pull_request": {
+        "number": 2,
+        "title": "Synthetic paired pull request",
+        "url": "https://github.com/example/project/pull/2"
+      },
+      "commits": {
+        "base": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "vulnerable": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "repairs": [
+          "cccccccccccccccccccccccccccccccccccccccc",
+          "dddddddddddddddddddddddddddddddddddddddd"
+        ],
+        "fixed": "dddddddddddddddddddddddddddddddddddddddd"
+      },
+      "disposition": "paired_draft"
+    },
+    {
+      "case_id": "synthetic-special-case",
+      "finding_id": "F002",
+      "finding_id_source": "source_review",
+      "repository": "example/project",
+      "pull_request": {
+        "number": 3,
+        "title": "Synthetic special pull request",
+        "url": "https://github.com/example/project/pull/3"
+      },
+      "commits": {
+        "base": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+        "vulnerable": "ffffffffffffffffffffffffffffffffffffffff",
+        "repairs": [],
+        "fixed": null
+      },
+      "disposition": "special-external-setting"
+    }
+  ],
+  "notes": ["Synthetic fixture only"]
+}

@@ -1,0 +1,58 @@
+{
+  "schema_version": "2.0",
+  "case_id": "synthetic-case",
+  "expected_behavior": {
+    "vulnerable": "Synthetic vulnerable behavior",
+    "fixed": "Synthetic fixed behavior with one unrelated validated issue"
+  },
+  "expected_mechanisms": [
+    {
+      "mechanism_id": "mechanism-synthetic",
+      "description": "Synthetic expected mechanism",
+      "adjudication_rubric": "Match only the synthetic mechanism",
+      "evaluation_role": "primary",
+      "snapshot_expectations": {
+        "vulnerable": "present",
+        "fixed": "absent"
+      },
+      "acceptable_locations": [
+        {
+          "path": "src/example.py",
+          "aliases": ["legacy/example.py"],
+          "start_line": 4,
+          "end_line": 8
+        }
+      ],
+      "accepted_defect_categories": ["correctness", "operational_contract"],
+      "severity_range": {"minimum": "medium", "maximum": "critical"},
+      "provenance": {
+        "excerpt": "Synthetic primary provenance",
+        "source_record_id": "synthetic-primary-record"
+      }
+    },
+    {
+      "mechanism_id": "mechanism-supplemental",
+      "description": "Synthetic supplemental mechanism",
+      "adjudication_rubric": "Match only the supplemental mechanism",
+      "evaluation_role": "supplemental",
+      "snapshot_expectations": {
+        "vulnerable": "unverified",
+        "fixed": "present"
+      },
+      "acceptable_locations": [{"path": "src/supplemental.py"}],
+      "accepted_defect_categories": ["security"],
+      "severity_range": {"minimum": "high", "maximum": "high"},
+      "provenance": {
+        "excerpt": "Synthetic supplemental provenance",
+        "source_record_id": "synthetic-supplemental-record"
+      }
+    }
+  ],
+  "forbidden_expected_phrases": ["synthetic forbidden phrase"],
+  "fixed_only_fingerprints": [],
+  "curator_notes": "Synthetic fixture only",
+  "adjudication": {
+    "required": true,
+    "accepted_alternative_matches": []
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "corpus_id": "synthetic-corpus",
+  "source_evidence": "https://github.com/example/project/pull/1",
+  "generated_at": "2026-01-01T00:00:00Z",
+  "visibility": "curator_and_scorer_only",
+  "records": [
+    {
+      "case_id": "synthetic-case",
+      "finding_id": "F001",
+      "finding_id_source": "source_review",
+      "repository": "example/project",
+      "pull_request": {
+        "number": 1,
+        "title": "Synthetic pull request",
+        "url": "https://github.com/example/project/pull/1"
+      },
+      "commits": {
+        "base": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        "vulnerable": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "repairs": ["cccccccccccccccccccccccccccccccccccccccc"],
+        "fixed": "cccccccccccccccccccccccccccccccccccccccc"
+      },
+      "disposition": "paired_draft"
+    }
+  ],
+  "notes": []
+}

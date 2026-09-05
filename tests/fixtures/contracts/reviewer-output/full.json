@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "findings": [
+    {
+      "schema_version": "1.0",
+      "finding_id": "F001",
+      "title": "Synthetic defect",
+      "explanation": "Synthetic explanation",
+      "file_path": "src/example.py",
+      "start_line": 4,
+      "end_line": 8,
+      "severity": "medium",
+      "defect_category": "correctness",
+      "failure_mechanism": "Synthetic failure mechanism",
+      "confidence": 0.75,
+      "evidence": [{"source_type": "diff", "reference": "src/example.py:4"}]
+    }
+  ]
+}

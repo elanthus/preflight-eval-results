@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "packet_id": "packet-fcdd6658f4ba190286cd7d217eb7938f",
+  "rubric_version": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "exported_at": "2026-08-18T12:00:00Z",
+  "calibration_size": 1,
+  "items": [
+    {
+      "assignment_id": "assignment-11111111111111111111111111111111",
+      "calibration": true,
+      "finding": {
+        "title": "Synthetic finding",
+        "explanation": "Synthetic explanation",
+        "file_path": "src/example.py",
+        "severity": "high",
+        "defect_category": "correctness",
+        "failure_mechanism": "Synthetic mechanism claim",
+        "confidence": 0.9,
+        "evidence": [{"source_type": "file", "reference": "src/example.py:10"}]
+      },
+      "rubric": "Match only the synthetic mechanism"
+    }
+  ],
+  "content_digest": "sha256:fcdd6658f4ba190286cd7d217eb7938f1c95aaba37e015926e1c8c770e0bc448"
+}

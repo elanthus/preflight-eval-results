@@ -1,0 +1,27 @@
+name: Validate public implementation
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python: ['3.12', '3.13']
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: astral-sh/setup-uv@20cfd1bf945f4377ade1205e4dbc17946fc9a30d
+        with:
+          version: '0.12.9'
+          python-version: ${{ matrix.python }}
+          enable-cache: true
+      - run: uv sync --locked --all-groups
+      - run: uv run --locked ruff check .
+      - run: uv run --locked mypy
+      - run: uv run --locked python scripts/check_source_manifest.py
+      - run: uv run --locked pytest -q
+      - run: uv run --locked preflight-eval-reference --out replay-output --check examples/synthetic-v1/expected.json
+      - run: uv run --locked python scripts/verify_distribution.py

@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.2",
+  "case_id": "synthetic-case",
+  "snapshot": "fixed",
+  "condition": "candidate",
+  "repetition": 2,
+  "seed": 42,
+  "request_id": "synthetic-request-two",
+  "run_id": "run-synthetic-two",
+  "source_commit": "dddddddddddddddddddddddddddddddddddddddd",
+  "worktree_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "bundle_entries": [
+    {
+      "path": "src/example.py",
+      "byte_count": 100,
+      "token_count": 25,
+      "content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "truncated": false,
+      "selection_reason": "synthetic include"
+    },
+    {
+      "path": "tests/test_example.py",
+      "byte_count": 200,
+      "token_count": 50,
+      "content_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+      "truncated": true,
+      "selection_reason": "synthetic related test"
+    }
+  ],
+  "bundle_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "bundle_byte_count": 512,
+  "bundle_token_count": 125,
+  "context_entry_digest": "sha256:c1caba4b0c5e8aaeec1953f8689fa432445b07984015cb746619ef469b24d632",
+  "context_byte_count": 300,
+  "context_token_count": 75,
+  "bundle_config": {
+    "encoding": "utf-8",
+    "newline_policy": "normalize_lf_v1",
+    "tokenizer": {
+      "implementation": "tiktoken",
+      "name": "o200k_base",
+      "version": "0.14.0",
+      "method": "per_file_utf8_sum_v1"
+    },
+    "context_policy": {
+      "includes": ["src", "tests"],
+      "excludes": ["tests/private"],
+      "per_file_byte_limit": 1000,
+      "per_file_token_limit": 250,
+      "total_token_limit": 500,
+      "symlink_policy": "reject",
+      "binary_policy": "omit",
+      "truncation_policy": "head_tail"
+    }
+  },
+  "prompt_template": {
+    "name": "baseline",
+    "version": "1.0",
+    "digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+  },
+  "profile_template": {
+    "name": "candidate",
+    "version": "1.0",
+    "digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+  },
+  "reviewer_config": {
+    "model": "synthetic-model",
+    "tool_policy": "read-only",
+    "input_token_limit": 8000,
+    "output_token_limit": 2000,
+    "temperature": 0.2,
+    "adapter_version": "1.1"
+  },
+  "request_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "leakage": {
+    "policy_version": "leakage-v1",
+    "passed": true,
+    "rule_ids": ["LEAKAGE_EXPECTED_PHRASE"],
+    "index_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "approved_matches": [
+      {
+        "rule_id": "LEAKAGE_EXPECTED_PHRASE",
+        "location_class": "profile",
+        "match_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "exception_id": "exception-synthetic-one"
+      }
+    ]
+  },
+  "created_at": "2026-01-02T00:00:00Z",
+  "content_digest": "sha256:b2ef180a0ae8b5eff3cf6b1496e759b21a72057fa9d404e9eaf4664a9912076c"
+}

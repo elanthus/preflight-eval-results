@@ -1,0 +1,826 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/aggregate-report.schema.json",
+  "title": "Content-addressed disclosure-safe aggregate evaluation report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "report_id",
+    "visibility",
+    "minimum_public_cell_size",
+    "digests",
+    "corpus",
+    "protocol",
+    "completeness",
+    "metrics",
+    "operations",
+    "cost",
+    "decision",
+    "limitations",
+    "exclusions",
+    "protocol_deviations",
+    "investigation_links",
+    "content_digest"
+  ],
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "1.0"}}},
+      "then": {"not": {"required": ["mechanism_discovery"]}}
+    },
+    {
+      "if": {"properties": {"schema_version": {"const": "2.0"}}},
+      "then": {"required": ["mechanism_discovery"]}
+    }
+  ],
+  "properties": {
+    "schema_version": {"enum": ["1.0", "2.0"]},
+    "report_id": {"type": "string", "pattern": "^report-[0-9a-f]{32}$"},
+    "visibility": {"enum": ["private", "public"]},
+    "minimum_public_cell_size": {"type": "integer", "minimum": 2, "maximum": 1000},
+    "digests": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "experiment",
+        "statistics",
+        "score_result",
+        "case_manifest",
+        "baseline_profile",
+        "candidate_profile",
+        "prompt_template",
+        "analysis_plan",
+        "reviewer_configuration",
+        "adapter_capabilities",
+        "environment_lock"
+      ],
+      "properties": {
+        "experiment": {"$ref": "#/$defs/digest"},
+        "statistics": {"$ref": "#/$defs/digest"},
+        "score_result": {"$ref": "#/$defs/digest"},
+        "case_manifest": {"$ref": "#/$defs/digest"},
+        "baseline_profile": {"$ref": "#/$defs/digest"},
+        "candidate_profile": {"$ref": "#/$defs/digest"},
+        "prompt_template": {"$ref": "#/$defs/nullableDigest"},
+        "analysis_plan": {"$ref": "#/$defs/nullableDigest"},
+        "reviewer_configuration": {"$ref": "#/$defs/digest"},
+        "adapter_capabilities": {"$ref": "#/$defs/nullableDigest"},
+        "environment_lock": {"$ref": "#/$defs/digest"}
+      }
+    },
+    "corpus": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "eligible_cases",
+        "eligibility_counts",
+        "planned_runs",
+        "completed_runs",
+        "repetitions"
+      ],
+      "properties": {
+        "eligible_cases": {"type": "integer", "minimum": 1},
+        "eligibility_counts": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 2,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["eligibility", "count"],
+            "properties": {
+              "eligibility": {"enum": ["development", "holdout"]},
+              "count": {"type": "integer", "minimum": 1}
+            }
+          }
+        },
+        "planned_runs": {"type": "integer", "minimum": 1},
+        "completed_runs": {"$ref": "#/$defs/count"},
+        "repetitions": {"type": "integer", "minimum": 1}
+      }
+    },
+    "protocol": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshots",
+        "conditions",
+        "paired_unit",
+        "invalid_output_policy",
+        "interval_method"
+      ],
+      "properties": {
+        "snapshots": {
+          "type": "array",
+          "const": ["vulnerable", "fixed"]
+        },
+        "conditions": {
+          "type": "array",
+          "const": ["baseline", "candidate"]
+        },
+        "paired_unit": {"const": "case"},
+        "invalid_output_policy": {"enum": ["retry_then_fail", "fail_run"]},
+        "interval_method": {"$ref": "#/$defs/intervalMethod"}
+      }
+    },
+    "completeness": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "all_planned_runs_terminal",
+        "primary_analysis_complete",
+        "successful_runs",
+        "invalid_outputs",
+        "other_failed_outputs",
+        "unfinished_runs",
+        "terminal_status_counts"
+      ],
+      "properties": {
+        "all_planned_runs_terminal": {"type": "boolean"},
+        "primary_analysis_complete": {"type": "boolean"},
+        "successful_runs": {"$ref": "#/$defs/count"},
+        "invalid_outputs": {"$ref": "#/$defs/count"},
+        "other_failed_outputs": {"$ref": "#/$defs/count"},
+        "unfinished_runs": {"$ref": "#/$defs/count"},
+        "terminal_status_counts": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "succeeded",
+            "invalid_output",
+            "provider_error",
+            "configuration_error",
+            "adapter_error",
+            "timeout"
+          ],
+          "properties": {
+            "succeeded": {"$ref": "#/$defs/count"},
+            "invalid_output": {"$ref": "#/$defs/count"},
+            "provider_error": {"$ref": "#/$defs/count"},
+            "configuration_error": {"$ref": "#/$defs/count"},
+            "adapter_error": {"$ref": "#/$defs/count"},
+            "timeout": {"$ref": "#/$defs/count"}
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["modes", "quality", "repetition_stability", "exploratory_breakdowns"],
+      "properties": {
+        "modes": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/mode"}
+        },
+        "quality": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/quality"}
+        },
+        "repetition_stability": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {"$ref": "#/$defs/stability"}
+        },
+        "exploratory_breakdowns": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/breakdown"}
+        }
+      }
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {"$ref": "#/$defs/operation"}
+    },
+    "cost": {"$ref": "#/$defs/cost"},
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["value", "rationale", "inputs"],
+      "properties": {
+        "value": {"enum": ["adopt", "revise", "reject", "insufficient evidence"]},
+        "rationale": {"$ref": "#/$defs/narrative"},
+        "inputs": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "primary_analysis_complete",
+            "vulnerable_lift",
+            "fixed_false_positive_increase",
+            "net_useful_lift",
+            "intervals",
+            "invalid_outputs",
+            "actual_cost_known"
+          ],
+          "properties": {
+            "primary_analysis_complete": {"type": "boolean"},
+            "vulnerable_lift": {"$ref": "#/$defs/difference"},
+            "fixed_false_positive_increase": {"$ref": "#/$defs/difference"},
+            "net_useful_lift": {"$ref": "#/$defs/difference"},
+            "intervals": {"$ref": "#/$defs/intervals"},
+            "invalid_outputs": {"$ref": "#/$defs/count"},
+            "actual_cost_known": {"type": "boolean"}
+          }
+        }
+      }
+    },
+    "limitations": {"$ref": "#/$defs/narratives"},
+    "exclusions": {"$ref": "#/$defs/narratives"},
+    "protocol_deviations": {"$ref": "#/$defs/narratives"},
+    "investigation_links": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["run_id", "href"],
+        "properties": {
+          "run_id": {"type": "string", "pattern": "^run-[0-9a-f]{32}$"},
+          "href": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 2000,
+            "pattern": "^[^\\u0000-\\u001f\\\\\\[\\]\\(\\)<>\\\"]+$"
+          }
+        }
+      }
+    },
+    "issue_discovery": {"$ref": "#/$defs/issueDiscovery"},
+    "mechanism_discovery": {"$ref": "#/$defs/mechanismDiscovery"},
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "nullableDigest": {
+      "oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+    },
+    "count": {"type": "integer", "minimum": 0},
+    "nullableNumber": {"type": ["number", "null"]},
+    "nullableNonnegativeNumber": {
+      "oneOf": [{"type": "number", "minimum": 0}, {"type": "null"}]
+    },
+    "narrative": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 2000,
+      "pattern": "^[^\\u0000-\\u001f]+$"
+    },
+    "narratives": {
+      "type": "array",
+      "maxItems": 100,
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/narrative"}
+    },
+    "intervalMethod": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "confidence_level", "resamples", "generator", "seed"],
+      "properties": {
+        "name": {"const": "paired-case-percentile-bootstrap-nearest-rank"},
+        "confidence_level": {"const": 0.95},
+        "resamples": {"const": 100000},
+        "generator": {"const": "numpy.PCG64"},
+        "seed": {"const": 2026081802}
+      }
+    },
+    "discoveryCounts": {
+      "required": [
+        "total_findings",
+        "valid_finding_instances",
+        "unique_valid_issues",
+        "known_issue_instances",
+        "unique_known_issues",
+        "additional_valid_issue_instances",
+        "unique_additional_valid_issues",
+        "false_positive_findings",
+        "repaired_mechanism_false_positives",
+        "other_false_positive_findings",
+        "code_finding_instances",
+        "documentation_finding_instances",
+        "valid_code_issue_instances",
+        "unique_valid_code_issues",
+        "valid_documentation_issue_instances",
+        "unique_valid_documentation_issues",
+        "code_false_positive_findings",
+        "documentation_false_positive_findings",
+        "uncertain_findings",
+        "resolved_precision",
+        "false_positive_rate"
+      ],
+      "properties": {
+        "total_findings": {"$ref": "#/$defs/count"},
+        "valid_finding_instances": {"$ref": "#/$defs/count"},
+        "unique_valid_issues": {"$ref": "#/$defs/count"},
+        "known_issue_instances": {"$ref": "#/$defs/count"},
+        "unique_known_issues": {"$ref": "#/$defs/count"},
+        "additional_valid_issue_instances": {"$ref": "#/$defs/count"},
+        "unique_additional_valid_issues": {"$ref": "#/$defs/count"},
+        "false_positive_findings": {"$ref": "#/$defs/count"},
+        "repaired_mechanism_false_positives": {"$ref": "#/$defs/count"},
+        "other_false_positive_findings": {"$ref": "#/$defs/count"},
+        "code_finding_instances": {"$ref": "#/$defs/count"},
+        "documentation_finding_instances": {"$ref": "#/$defs/count"},
+        "valid_code_issue_instances": {"$ref": "#/$defs/count"},
+        "unique_valid_code_issues": {"$ref": "#/$defs/count"},
+        "valid_documentation_issue_instances": {"$ref": "#/$defs/count"},
+        "unique_valid_documentation_issues": {"$ref": "#/$defs/count"},
+        "code_false_positive_findings": {"$ref": "#/$defs/count"},
+        "documentation_false_positive_findings": {"$ref": "#/$defs/count"},
+        "uncertain_findings": {"$ref": "#/$defs/count"},
+        "resolved_precision": {"$ref": "#/$defs/nullableNumber"},
+        "false_positive_rate": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "issueDiscovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [{"$ref": "#/$defs/discoveryCounts"}],
+      "required": ["schema_version", "assessment_digest", "cells"],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "assessment_digest": {"$ref": "#/$defs/digest"},
+        "total_findings": {},
+        "valid_finding_instances": {},
+        "unique_valid_issues": {},
+        "known_issue_instances": {},
+        "unique_known_issues": {},
+        "additional_valid_issue_instances": {},
+        "unique_additional_valid_issues": {},
+        "false_positive_findings": {},
+        "repaired_mechanism_false_positives": {},
+        "other_false_positive_findings": {},
+        "code_finding_instances": {},
+        "documentation_finding_instances": {},
+        "valid_code_issue_instances": {},
+        "unique_valid_code_issues": {},
+        "valid_documentation_issue_instances": {},
+        "unique_valid_documentation_issues": {},
+        "code_false_positive_findings": {},
+        "documentation_false_positive_findings": {},
+        "uncertain_findings": {},
+        "resolved_precision": {},
+        "false_positive_rate": {},
+        "cells": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "allOf": [{"$ref": "#/$defs/discoveryCounts"}],
+            "required": ["condition", "snapshot"],
+            "properties": {
+              "condition": {"enum": ["baseline", "candidate"]},
+              "snapshot": {"enum": ["vulnerable", "fixed"]},
+              "total_findings": {},
+              "valid_finding_instances": {},
+              "unique_valid_issues": {},
+              "known_issue_instances": {},
+              "unique_known_issues": {},
+              "additional_valid_issue_instances": {},
+              "unique_additional_valid_issues": {},
+              "false_positive_findings": {},
+              "repaired_mechanism_false_positives": {},
+              "other_false_positive_findings": {},
+              "code_finding_instances": {},
+              "documentation_finding_instances": {},
+              "valid_code_issue_instances": {},
+              "unique_valid_code_issues": {},
+              "valid_documentation_issue_instances": {},
+              "unique_valid_documentation_issues": {},
+              "code_false_positive_findings": {},
+              "documentation_false_positive_findings": {},
+              "uncertain_findings": {},
+              "resolved_precision": {},
+              "false_positive_rate": {}
+            }
+          }
+        }
+      }
+    },
+    "mechanismCounts": {
+      "required": [
+        "finding_instances",
+        "duplicate_findings_excluded",
+        "unverified_findings_excluded",
+        "unrelated_findings_excluded",
+        "true_positive_findings",
+        "false_positive_findings",
+        "unresolved_findings",
+        "precision_denominator",
+        "precision",
+        "verified_mechanism_units",
+        "resolved_mechanism_units",
+        "unresolved_mechanism_units",
+        "unverified_mechanism_units",
+        "expected_present_units",
+        "detected_present_units",
+        "missed_present_units",
+        "recall_denominator",
+        "recall",
+        "f1",
+        "expected_absent_units",
+        "unexpected_claim_units",
+        "clear_absence_units",
+        "expected_mechanism_coverage"
+      ],
+      "properties": {
+        "finding_instances": {"$ref": "#/$defs/count"},
+        "duplicate_findings_excluded": {"$ref": "#/$defs/count"},
+        "unverified_findings_excluded": {"$ref": "#/$defs/count"},
+        "unrelated_findings_excluded": {"$ref": "#/$defs/count"},
+        "true_positive_findings": {"$ref": "#/$defs/count"},
+        "false_positive_findings": {"$ref": "#/$defs/count"},
+        "unresolved_findings": {"$ref": "#/$defs/count"},
+        "precision_denominator": {"$ref": "#/$defs/count"},
+        "precision": {"$ref": "#/$defs/nullableNumber"},
+        "verified_mechanism_units": {"$ref": "#/$defs/count"},
+        "resolved_mechanism_units": {"$ref": "#/$defs/count"},
+        "unresolved_mechanism_units": {"$ref": "#/$defs/count"},
+        "unverified_mechanism_units": {"$ref": "#/$defs/count"},
+        "expected_present_units": {"$ref": "#/$defs/count"},
+        "detected_present_units": {"$ref": "#/$defs/count"},
+        "missed_present_units": {"$ref": "#/$defs/count"},
+        "recall_denominator": {"$ref": "#/$defs/count"},
+        "recall": {"$ref": "#/$defs/nullableNumber"},
+        "f1": {"$ref": "#/$defs/nullableNumber"},
+        "expected_absent_units": {"$ref": "#/$defs/count"},
+        "unexpected_claim_units": {"$ref": "#/$defs/count"},
+        "clear_absence_units": {"$ref": "#/$defs/count"},
+        "expected_mechanism_coverage": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "mechanismDiscovery": {
+      "type": "object",
+      "additionalProperties": false,
+      "allOf": [{"$ref": "#/$defs/mechanismCounts"}],
+      "required": [
+        "schema_version",
+        "statistical_unit",
+        "precision_unit",
+        "duplicate_policy",
+        "repetition_policy",
+        "unresolved_policy",
+        "unverified_policy",
+        "case_count",
+        "cells"
+      ],
+      "properties": {
+        "schema_version": {"const": "1.0"},
+        "statistical_unit": {"const": "condition-snapshot-case-mechanism"},
+        "precision_unit": {"const": "nonduplicate-finding-per-run"},
+        "duplicate_policy": {"const": "exclude-in-run-duplicate-findings"},
+        "repetition_policy": {
+          "const": "collapse-to-one-case-mechanism-unit-conservatively"
+        },
+        "unresolved_policy": {"const": "exclude-from-rate-denominators-and-report"},
+        "unverified_policy": {"const": "exclude-from-rate-denominators-and-report"},
+        "case_count": {"type": "integer", "minimum": 1},
+        "finding_instances": {},
+        "duplicate_findings_excluded": {},
+        "unverified_findings_excluded": {},
+        "unrelated_findings_excluded": {},
+        "true_positive_findings": {},
+        "false_positive_findings": {},
+        "unresolved_findings": {},
+        "precision_denominator": {},
+        "precision": {},
+        "verified_mechanism_units": {},
+        "resolved_mechanism_units": {},
+        "unresolved_mechanism_units": {},
+        "unverified_mechanism_units": {},
+        "expected_present_units": {},
+        "detected_present_units": {},
+        "missed_present_units": {},
+        "recall_denominator": {},
+        "recall": {},
+        "f1": {},
+        "expected_absent_units": {},
+        "unexpected_claim_units": {},
+        "clear_absence_units": {},
+        "expected_mechanism_coverage": {},
+        "cells": {
+          "type": "array",
+          "minItems": 4,
+          "maxItems": 4,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "allOf": [{"$ref": "#/$defs/mechanismCounts"}],
+            "required": ["condition", "snapshot", "case_count"],
+            "properties": {
+              "condition": {"enum": ["baseline", "candidate"]},
+              "snapshot": {"enum": ["vulnerable", "fixed"]},
+              "case_count": {"type": "integer", "minimum": 1},
+              "finding_instances": {},
+              "duplicate_findings_excluded": {},
+              "unverified_findings_excluded": {},
+              "unrelated_findings_excluded": {},
+              "true_positive_findings": {},
+              "false_positive_findings": {},
+              "unresolved_findings": {},
+              "precision_denominator": {},
+              "precision": {},
+              "verified_mechanism_units": {},
+              "resolved_mechanism_units": {},
+              "unresolved_mechanism_units": {},
+              "unverified_mechanism_units": {},
+              "expected_present_units": {},
+              "detected_present_units": {},
+              "missed_present_units": {},
+              "recall_denominator": {},
+              "recall": {},
+              "f1": {},
+              "expected_absent_units": {},
+              "unexpected_claim_units": {},
+              "clear_absence_units": {},
+              "expected_mechanism_coverage": {}
+            }
+          }
+        }
+      }
+    },
+    "outcomeCount": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["positive", "negative", "unresolved", "total", "value"],
+      "properties": {
+        "positive": {"$ref": "#/$defs/count"},
+        "negative": {"$ref": "#/$defs/count"},
+        "unresolved": {"$ref": "#/$defs/count"},
+        "total": {"$ref": "#/$defs/count"},
+        "value": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "difference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "candidate_positive",
+        "baseline_positive",
+        "numerator",
+        "denominator",
+        "unresolved",
+        "value"
+      ],
+      "properties": {
+        "candidate_positive": {"$ref": "#/$defs/count"},
+        "baseline_positive": {"$ref": "#/$defs/count"},
+        "numerator": {"type": "integer"},
+        "denominator": {"$ref": "#/$defs/count"},
+        "unresolved": {"$ref": "#/$defs/count"},
+        "value": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "discordance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "both_positive",
+        "candidate_only",
+        "baseline_only",
+        "both_negative",
+        "unresolved",
+        "total_pairs"
+      ],
+      "properties": {
+        "both_positive": {"$ref": "#/$defs/count"},
+        "candidate_only": {"$ref": "#/$defs/count"},
+        "baseline_only": {"$ref": "#/$defs/count"},
+        "both_negative": {"$ref": "#/$defs/count"},
+        "unresolved": {"$ref": "#/$defs/count"},
+        "total_pairs": {"$ref": "#/$defs/count"}
+      }
+    },
+    "interval": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["lower", "upper"],
+      "properties": {
+        "lower": {"$ref": "#/$defs/nullableNumber"},
+        "upper": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "intervals": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "vulnerable_lift",
+        "fixed_false_positive_increase",
+        "net_useful_lift"
+      ],
+      "properties": {
+        "vulnerable_lift": {"$ref": "#/$defs/interval"},
+        "fixed_false_positive_increase": {"$ref": "#/$defs/interval"},
+        "net_useful_lift": {"$ref": "#/$defs/interval"}
+      }
+    },
+    "mode": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mode", "complete", "rates", "differences", "discordance", "intervals"],
+      "properties": {
+        "mode": {"enum": ["primary", "pessimistic", "optimistic"]},
+        "complete": {"type": "boolean"},
+        "rates": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "vulnerable_baseline",
+            "vulnerable_candidate",
+            "fixed_baseline",
+            "fixed_candidate"
+          ],
+          "properties": {
+            "vulnerable_baseline": {"$ref": "#/$defs/outcomeCount"},
+            "vulnerable_candidate": {"$ref": "#/$defs/outcomeCount"},
+            "fixed_baseline": {"$ref": "#/$defs/outcomeCount"},
+            "fixed_candidate": {"$ref": "#/$defs/outcomeCount"}
+          }
+        },
+        "differences": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "vulnerable_lift",
+            "fixed_false_positive_increase",
+            "net_useful_lift"
+          ],
+          "properties": {
+            "vulnerable_lift": {"$ref": "#/$defs/difference"},
+            "fixed_false_positive_increase": {"$ref": "#/$defs/difference"},
+            "net_useful_lift": {"$ref": "#/$defs/difference"}
+          }
+        },
+        "discordance": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["vulnerable", "fixed"],
+          "properties": {
+            "vulnerable": {"$ref": "#/$defs/discordance"},
+            "fixed": {"$ref": "#/$defs/discordance"}
+          }
+        },
+        "intervals": {"$ref": "#/$defs/intervals"}
+      }
+    },
+    "accuracy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["correct", "incorrect", "unresolved", "total", "value"],
+      "properties": {
+        "correct": {"$ref": "#/$defs/count"},
+        "incorrect": {"$ref": "#/$defs/count"},
+        "unresolved": {"$ref": "#/$defs/count"},
+        "total": {"$ref": "#/$defs/count"},
+        "value": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "quality": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["condition", "valid_output", "acceptable_path", "category", "mechanism", "severity"],
+      "properties": {
+        "condition": {"enum": ["all", "baseline", "candidate"]},
+        "valid_output": {"$ref": "#/$defs/accuracy"},
+        "acceptable_path": {"$ref": "#/$defs/accuracy"},
+        "category": {"$ref": "#/$defs/accuracy"},
+        "mechanism": {"$ref": "#/$defs/accuracy"},
+        "severity": {"$ref": "#/$defs/accuracy"}
+      }
+    },
+    "stability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "snapshot",
+        "condition",
+        "case_count",
+        "repetitions",
+        "complete_cases",
+        "unresolved_cases",
+        "discordant_cases",
+        "mean_within_case_variance"
+      ],
+      "properties": {
+        "snapshot": {"enum": ["vulnerable", "fixed"]},
+        "condition": {"enum": ["baseline", "candidate"]},
+        "case_count": {"type": "integer", "minimum": 1},
+        "repetitions": {"type": "integer", "minimum": 1},
+        "complete_cases": {"$ref": "#/$defs/count"},
+        "unresolved_cases": {"$ref": "#/$defs/count"},
+        "discordant_cases": {"$ref": "#/$defs/count"},
+        "mean_within_case_variance": {"$ref": "#/$defs/nullableNumber"}
+      }
+    },
+    "distribution": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "observations",
+        "missing",
+        "minimum",
+        "median",
+        "p95",
+        "maximum",
+        "mean",
+        "total"
+      ],
+      "properties": {
+        "source": {"enum": ["measured", "provider_reported", "tokenizer_estimate"]},
+        "observations": {"$ref": "#/$defs/count"},
+        "missing": {"$ref": "#/$defs/count"},
+        "minimum": {"$ref": "#/$defs/nullableNonnegativeNumber"},
+        "median": {"$ref": "#/$defs/nullableNonnegativeNumber"},
+        "p95": {"$ref": "#/$defs/nullableNonnegativeNumber"},
+        "maximum": {"$ref": "#/$defs/nullableNonnegativeNumber"},
+        "mean": {"$ref": "#/$defs/nullableNonnegativeNumber"},
+        "total": {"$ref": "#/$defs/nullableNonnegativeNumber"}
+      }
+    },
+    "operation": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "condition",
+        "latency_ms",
+        "provider_input_tokens",
+        "provider_cached_input_tokens",
+        "provider_output_tokens",
+        "provider_reasoning_tokens",
+        "tokenizer_estimated_input_tokens"
+      ],
+      "properties": {
+        "condition": {"enum": ["all", "baseline", "candidate"]},
+        "latency_ms": {"$ref": "#/$defs/distribution"},
+        "provider_input_tokens": {"$ref": "#/$defs/distribution"},
+        "provider_cached_input_tokens": {"$ref": "#/$defs/distribution"},
+        "provider_output_tokens": {"$ref": "#/$defs/distribution"},
+        "provider_reasoning_tokens": {"$ref": "#/$defs/distribution"},
+        "tokenizer_estimated_input_tokens": {"$ref": "#/$defs/distribution"}
+      }
+    },
+    "breakdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["dimension", "value", "case_count", "exploratory", "modes"],
+      "properties": {
+        "dimension": {"type": "string", "minLength": 1, "maxLength": 100},
+        "value": {"type": "string", "minLength": 1, "maxLength": 200},
+        "case_count": {"type": "integer", "minimum": 1},
+        "exploratory": {"const": true},
+        "modes": {
+          "type": "array",
+          "minItems": 3,
+          "maxItems": 3,
+          "items": {"$ref": "#/$defs/mode"}
+        }
+      }
+    },
+    "cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "price_table_version",
+        "price_effective_date",
+        "provider",
+        "model",
+        "completed_runs",
+        "unfinished_runs",
+        "provider_usage_runs",
+        "unknown_usage_or_price_runs",
+        "unaccounted_retry_attempts",
+        "known_terminal_cost_usd",
+        "actual_cost_usd",
+        "projected_remaining_cost_usd",
+        "projected_total_cost_usd",
+        "frozen_worst_case_cost_usd",
+        "projection_method"
+      ],
+      "properties": {
+        "price_table_version": {"type": "string", "minLength": 1, "maxLength": 100},
+        "price_effective_date": {"type": "string", "format": "date"},
+        "provider": {"type": "string", "minLength": 1, "maxLength": 100},
+        "model": {"type": "string", "minLength": 1, "maxLength": 200},
+        "completed_runs": {"$ref": "#/$defs/count"},
+        "unfinished_runs": {"$ref": "#/$defs/count"},
+        "provider_usage_runs": {"$ref": "#/$defs/count"},
+        "unknown_usage_or_price_runs": {"$ref": "#/$defs/count"},
+        "unaccounted_retry_attempts": {"$ref": "#/$defs/count"},
+        "known_terminal_cost_usd": {"$ref": "#/$defs/nullableNumber"},
+        "actual_cost_usd": {"$ref": "#/$defs/nullableNumber"},
+        "projected_remaining_cost_usd": {"$ref": "#/$defs/nullableNumber"},
+        "projected_total_cost_usd": {"$ref": "#/$defs/nullableNumber"},
+        "frozen_worst_case_cost_usd": {"$ref": "#/$defs/nullableNumber"},
+        "projection_method": {"type": "string", "minLength": 1, "maxLength": 200}
+      }
+    }
+  }
+}

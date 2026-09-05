@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "experiment_content_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "run_id": "run-cccccccccccccccccccccccccccccccc",
+  "attempt": 2,
+  "request_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "provider": "anthropic",
+  "model": "claude-sonnet-5",
+  "provider_request_id": "provider-request-123",
+  "started_at": "2026-08-23T02:00:00Z",
+  "ended_at": "2026-08-23T02:00:02.500000Z",
+  "monotonic_latency_ms": 2500.0,
+  "response_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "usage": {
+    "input_tokens": 100,
+    "cached_input_tokens": 20,
+    "output_tokens": 30,
+    "reasoning_tokens": 10
+  },
+  "provider_reported_cost": {"currency": "USD", "total_usd": 0.0125},
+  "run_record_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+  "content_digest": "sha256:d8e1ca62d3c0b286e494f346865da1bd3f53c582b66b49c6d5bd61d654cbbc17"
+}

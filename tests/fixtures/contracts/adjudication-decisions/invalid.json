@@ -1,0 +1,11 @@
+{
+  "schema_version": "1.0",
+  "batch_id": "batch-invalid",
+  "packet_id": "packet-11111111111111111111111111111111",
+  "packet_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "role": "unblinded",
+  "adjudicator": "synthetic-primary",
+  "submitted_at": "2026-08-18T12:10:00Z",
+  "decisions": [],
+  "content_digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

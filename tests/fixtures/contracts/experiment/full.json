@@ -1,0 +1,123 @@
+{
+  "schema_version": "1.2",
+  "experiment_id": "experiment-f815d5d0b8c056de01ecb509034f5447",
+  "cases": [
+    {
+      "case_id": "synthetic-case",
+      "role": "holdout",
+      "case_contract_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+      "vulnerable_snapshot": "1111111111111111111111111111111111111111",
+      "fixed_snapshot": "2222222222222222222222222222222222222222"
+    }
+  ],
+  "case_manifest_checksum": "sha256:c5c29bfe480fd14447710c5e7b12aecef09211b5b4525ee89fea6c2e58306198",
+  "baseline_profile": {
+    "version": "1.0",
+    "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "candidate_profile": {
+    "version": "1.1",
+    "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "prompt_template": {
+    "version": "1.0",
+    "digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+  },
+  "analysis_plan": {
+    "version": "1.0",
+    "digest": "sha256:9999999999999999999999999999999999999999999999999999999999999999"
+  },
+  "holdout_access_enabled": false,
+  "price_projection": {
+    "price_table_version": "synthetic-prices-v1",
+    "currency": "USD",
+    "input_usd_per_million_tokens": 2.5,
+    "output_usd_per_million_tokens": 15.0,
+    "maximum_input_tokens": 64000,
+    "maximum_output_tokens": 16000,
+    "contingency_rate": 0.2,
+    "projected_cost_usd": 0.48
+  },
+  "snapshot_set": ["vulnerable", "fixed"],
+  "repetitions": 1,
+  "execution_order": [
+    {
+      "run_id": "run-synthetic-vulnerable-baseline",
+      "case_id": "synthetic-case",
+      "snapshot": "vulnerable",
+      "condition": "baseline",
+      "repetition": 1,
+      "request_seed": 101,
+      "estimated_input_tokens": 1000
+    },
+    {
+      "run_id": "run-synthetic-fixed-candidate",
+      "case_id": "synthetic-case",
+      "snapshot": "fixed",
+      "condition": "candidate",
+      "repetition": 1,
+      "request_seed": 102,
+      "estimated_input_tokens": 900
+    },
+    {
+      "run_id": "run-synthetic-fixed-baseline",
+      "case_id": "synthetic-case",
+      "snapshot": "fixed",
+      "condition": "baseline",
+      "repetition": 1,
+      "request_seed": 102,
+      "estimated_input_tokens": 900
+    },
+    {
+      "run_id": "run-synthetic-vulnerable-candidate",
+      "case_id": "synthetic-case",
+      "snapshot": "vulnerable",
+      "condition": "candidate",
+      "repetition": 1,
+      "request_seed": 101,
+      "estimated_input_tokens": 1000
+    }
+  ],
+  "randomization_seed": 43,
+  "reviewer_config": {
+    "model": "synthetic-model",
+    "tool_policy": "read-only",
+    "input_token_limit": 8000,
+    "output_token_limit": 2000,
+    "output_schema_version": "1.0",
+    "adapter_version": "direct-cli-subprocess-v1",
+    "timeout_seconds": 180.5,
+    "temperature": 0.2
+  },
+  "retry_policy": {
+    "maximum_attempts": 2,
+    "retryable_failures": ["invalid_output", "provider_error"]
+  },
+  "invalid_output_policy": "retry_then_fail",
+  "code_revision": "dddddddddddddddddddddddddddddddddddddddd",
+  "environment_lock_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "adapter_capabilities": {
+    "adapter_version": "direct-cli-subprocess-v1",
+    "executable_version": "codex-cli 0.147.0",
+    "executable_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "review_arguments": ["run", "{model}"],
+    "version_arguments": ["--version"],
+    "probe_timeout_seconds": 10.0,
+    "maximum_stdout_bytes": 1000000,
+    "maximum_stderr_bytes": 64000,
+    "working_directory_policy": "explicit-empty-directory-v1",
+    "environment_policy": "minimal-allowlist-v1",
+    "termination_policy": "new-session-term-kill-v1",
+    "capabilities": [
+      "stdin-request-v1",
+      "structured-reviewer-output-v1"
+    ],
+    "content_digest": "sha256:8eabff93414017036adecd3c87d77a79725019ced5ab84ae8b868f28e0c111a2"
+  },
+  "content_digest": "sha256:f815d5d0b8c056de01ecb509034f5447425b8277dac04dbc3ce3f2e6f59d9bba",
+  "planned_run_count": 4,
+  "created_at": "2026-01-01T00:00:00Z",
+  "approved_by": "synthetic-operator",
+  "approved_at": "2026-01-01T01:00:00Z",
+  "frozen": true
+}

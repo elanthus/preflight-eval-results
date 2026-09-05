@@ -1,0 +1,64 @@
+{
+  "schema_version": "1.1",
+  "run_id": "run-synthetic-two",
+  "experiment_id": "experiment-synthetic",
+  "prompt_manifest_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "output_schema_version": "1.0",
+  "attempt": 2,
+  "status": "succeeded",
+  "started_at": "2026-01-01T00:00:00Z",
+  "ended_at": "2026-01-01T00:00:02Z",
+  "monotonic_latency_ms": 2000.5,
+  "provider_request_id": "synthetic-provider-request",
+  "seed": 42,
+  "reviewer_output": {
+    "schema_version": "1.0",
+    "findings": [
+      {
+        "schema_version": "1.0",
+        "finding_id": "F001",
+        "title": "Synthetic defect",
+        "explanation": "Synthetic explanation",
+        "file_path": "src/example.py",
+        "start_line": 4,
+        "end_line": 8,
+        "severity": "medium",
+        "defect_category": "correctness",
+        "failure_mechanism": "Synthetic failure mechanism",
+        "confidence": 0.75,
+        "evidence": [{"source_type": "file", "reference": "src/example.py:4"}]
+      }
+    ]
+  },
+  "validation_errors": [],
+  "usage": {
+    "input_tokens": 1000,
+    "cached_input_tokens": 100,
+    "output_tokens": 200,
+    "reasoning_tokens": 50
+  },
+  "price_table_version": "synthetic-2026-01",
+  "cost": {"currency": "USD", "input": 0.01, "output": 0.02, "total": 0.03},
+  "subprocess": {"exit_status": 0, "stderr_classification": "none"},
+  "retry_history": [{"attempt": 1, "classification": "provider_error"}],
+  "raw_artifacts": {
+    "request_path": "artifacts/requests/run-synthetic-two.json",
+    "request_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "response_path": "artifacts/responses/run-synthetic-two.json",
+    "response_digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "identity": {
+    "experiment_content_digest": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "source_commit": "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+    "worktree_digest": "sha256:ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "bundle_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+    "context_entry_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+    "request_id": "request-synthetic-two",
+    "request_digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "profile_digest": "sha256:3333333333333333333333333333333333333333333333333333333333333333",
+    "reviewer_config_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+    "adapter_capabilities_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+    "reviewer_output_digest": "sha256:fdcbb314f0612936fdb6a93df0540fb6e7da550933b345667c7eb0a6bc549c79"
+  },
+  "content_digest": "sha256:c1ad04114edf150ce669475596e7786d60659f26af8bde9f90f4d883452c048c"
+}

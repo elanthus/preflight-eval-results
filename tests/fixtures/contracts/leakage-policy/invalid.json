@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "policy_version": "leakage-v1",
+  "case_id": "synthetic-case",
+  "additional_sensitive_shas": [],
+  "repair_texts": [],
+  "evidence_fragments": [],
+  "exceptions": [
+    {
+      "exception_id": "global-bypass",
+      "rule_id": "*",
+      "location_class": "*",
+      "match_digest": "*",
+      "expires_at": "2099-01-01T00:00:00Z",
+      "actor": "synthetic-operator",
+      "reason": "Invalid global bypass"
+    }
+  ]
+}
