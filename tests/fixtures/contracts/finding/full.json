@@ -1,0 +1,17 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "F002",
+  "title": "Synthetic bounded defect",
+  "explanation": "Synthetic full explanation",
+  "file_path": "src/example.py",
+  "start_line": 4,
+  "end_line": 8,
+  "severity": "high",
+  "defect_category": "operational_contract",
+  "failure_mechanism": "Synthetic bounded failure mechanism",
+  "confidence": 1.0,
+  "evidence": [
+    {"source_type": "file", "reference": "src/example.py:4"},
+    {"source_type": "tool", "reference": "synthetic-check"}
+  ]
+}

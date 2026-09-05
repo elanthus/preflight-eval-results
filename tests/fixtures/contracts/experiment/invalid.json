@@ -1,0 +1,52 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-synthetic",
+  "cases": [{"case_id": "synthetic-case", "role": "development"}],
+  "case_manifest_checksum": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "baseline_profile": {
+    "version": "1.0",
+    "digest": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "candidate_profile": {
+    "version": "1.0",
+    "digest": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"
+  },
+  "snapshot_set": ["vulnerable"],
+  "repetitions": 1,
+  "execution_order": [
+    {
+      "run_id": "run-synthetic-baseline",
+      "case_id": "synthetic-case",
+      "snapshot": "vulnerable",
+      "condition": "baseline",
+      "repetition": 1
+    },
+    {
+      "run_id": "run-synthetic-candidate",
+      "case_id": "synthetic-case",
+      "snapshot": "vulnerable",
+      "condition": "candidate",
+      "repetition": 1
+    }
+  ],
+  "randomization_seed": 42,
+  "reviewer_config": {
+    "model": "synthetic-model",
+    "tool_policy": "read-only",
+    "input_token_limit": 4000,
+    "output_token_limit": 1000,
+    "output_schema_version": "1.0",
+    "adapter_version": "1.0",
+    "timeout_seconds": 120,
+    "temperature": 0
+  },
+  "retry_policy": {"maximum_attempts": 1, "retryable_failures": []},
+  "invalid_output_policy": "fail_run",
+  "code_revision": "short-sha",
+  "environment_lock_digest": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+  "planned_run_count": 2,
+  "created_at": "2026-01-01T00:00:00Z",
+  "approved_by": null,
+  "approved_at": null,
+  "frozen": false
+}

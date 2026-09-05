@@ -1,0 +1,138 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/case.schema.json",
+  "title": "Reviewer-safe case definition",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "case_id",
+    "display_name",
+    "defect_category",
+    "source",
+    "commits",
+    "snapshots",
+    "context_policy",
+    "eligibility",
+    "verification",
+    "estimated_input"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "case_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$", "maxLength": 80},
+    "display_name": {"type": "string", "minLength": 1, "maxLength": 120},
+    "defect_category": {
+      "enum": ["correctness", "security", "evaluation_integrity", "operational_contract"]
+    },
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "pull_request"],
+      "properties": {
+        "repository": {"type": "string", "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"},
+        "pull_request": {"type": "integer", "minimum": 1}
+      }
+    },
+    "commits": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["base", "vulnerable", "repair", "fixed"],
+      "properties": {
+        "base": {"$ref": "#/$defs/fullSha"},
+        "vulnerable": {"$ref": "#/$defs/fullSha"},
+        "repair": {"$ref": "#/$defs/fullSha"},
+        "fixed": {"$ref": "#/$defs/fullSha"}
+      }
+    },
+    "snapshots": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["vulnerable", "fixed"],
+      "properties": {
+        "vulnerable": {"$ref": "#/$defs/snapshot"},
+        "fixed": {"$ref": "#/$defs/snapshot"}
+      }
+    },
+    "context_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "includes",
+        "excludes",
+        "per_file_byte_limit",
+        "per_file_token_limit",
+        "total_token_limit",
+        "symlink_policy",
+        "binary_policy",
+        "truncation_policy"
+      ],
+      "properties": {
+        "includes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "excludes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/repositoryPath"}
+        },
+        "per_file_byte_limit": {"type": "integer", "minimum": 1},
+        "per_file_token_limit": {"type": "integer", "minimum": 1},
+        "total_token_limit": {"type": "integer", "minimum": 1},
+        "symlink_policy": {"enum": ["reject", "follow_within_root"]},
+        "binary_policy": {"enum": ["reject", "omit"]},
+        "truncation_policy": {"enum": ["reject", "head", "head_tail"]}
+      }
+    },
+    "eligibility": {"enum": ["development", "holdout", "special_manual", "rejected"]},
+    "eligibility_reason": {"type": "string", "minLength": 1, "maxLength": 500},
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "verifier", "verified_at", "method"],
+      "properties": {
+        "status": {"enum": ["verified", "unverified", "rejected"]},
+        "verifier": {"type": "string", "minLength": 1, "maxLength": 120},
+        "verified_at": {"type": "string", "format": "date"},
+        "method": {"type": "string", "minLength": 1, "maxLength": 500},
+        "notes": {"type": "string", "maxLength": 2000}
+      }
+    },
+    "estimated_input": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["tokenizer", "vulnerable_tokens", "fixed_tokens"],
+      "properties": {
+        "tokenizer": {"type": "string", "minLength": 1, "maxLength": 120},
+        "vulnerable_tokens": {"type": "integer", "minimum": 0},
+        "fixed_tokens": {"type": "integer", "minimum": 0}
+      }
+    }
+  },
+  "allOf": [
+    {
+      "if": {"properties": {"eligibility": {"enum": ["development", "holdout"]}}, "required": ["eligibility"]},
+      "then": {"properties": {"verification": {"properties": {"status": {"const": "verified"}}}}}
+    },
+    {
+      "if": {"properties": {"eligibility": {"enum": ["special_manual", "rejected"]}}, "required": ["eligibility"]},
+      "then": {"required": ["eligibility_reason"]}
+    }
+  ],
+  "$defs": {
+    "fullSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*//)[^\\u0000]+$"
+    },
+    "snapshot": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["commit"],
+      "properties": {"commit": {"$ref": "#/$defs/fullSha"}}
+    }
+  }
+}

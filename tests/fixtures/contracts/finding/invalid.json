@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0",
+  "finding_id": "not-stable",
+  "title": "Synthetic invalid defect",
+  "explanation": "Synthetic explanation",
+  "file_path": "../private.py",
+  "severity": "medium",
+  "defect_category": "correctness",
+  "failure_mechanism": "Synthetic failure mechanism",
+  "confidence": 2,
+  "evidence": [{"source_type": "file", "reference": "synthetic"}]
+}

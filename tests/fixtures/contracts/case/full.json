@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "case_id": "synthetic-full-case",
+  "display_name": "Synthetic full fixture",
+  "defect_category": "evaluation_integrity",
+  "source": {"repository": "example/project", "pull_request": 2},
+  "commits": {
+    "base": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "vulnerable": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "repair": "cccccccccccccccccccccccccccccccccccccccc",
+    "fixed": "dddddddddddddddddddddddddddddddddddddddd"
+  },
+  "snapshots": {
+    "vulnerable": {"commit": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"},
+    "fixed": {"commit": "dddddddddddddddddddddddddddddddddddddddd"}
+  },
+  "context_policy": {
+    "includes": ["src/example.py", "tests/test_example.py"],
+    "excludes": ["vendor/generated.py"],
+    "per_file_byte_limit": 20000,
+    "per_file_token_limit": 4000,
+    "total_token_limit": 12000,
+    "symlink_policy": "follow_within_root",
+    "binary_policy": "omit",
+    "truncation_policy": "head_tail"
+  },
+  "eligibility": "holdout",
+  "verification": {
+    "status": "verified",
+    "verifier": "synthetic-curator",
+    "verified_at": "2026-01-02",
+    "method": "independent synthetic snapshot inspection",
+    "notes": "Synthetic fixture only"
+  },
+  "estimated_input": {
+    "tokenizer": "synthetic-tokenizer-v1",
+    "vulnerable_tokens": 120,
+    "fixed_tokens": 110
+  }
+}

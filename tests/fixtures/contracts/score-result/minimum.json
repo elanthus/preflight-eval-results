@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-synthetic",
+  "experiment_digest": "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "invalid_output_policy": "retry_then_fail",
+  "runs": [
+    {
+      "run_id": "run-synthetic-vulnerable-baseline",
+      "case_id": "synthetic-case",
+      "snapshot": "vulnerable",
+      "condition": "baseline",
+      "repetition": 1,
+      "input_digests": {
+        "run_record": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "planned_run": "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "gold": "sha256:dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+        "adjudications": "sha256:eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+      },
+      "terminal_status": "succeeded",
+      "outcome": {
+        "name": "vulnerable_detection",
+        "primary": false,
+        "pessimistic": false,
+        "optimistic": false
+      },
+      "findings": []
+    }
+  ],
+  "content_digest": "sha256:ebdbba96365e26b1efadba87a3cc477a6a670f2762dadcd75ff3fb846add65b9"
+}

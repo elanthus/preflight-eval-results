@@ -1,0 +1,96 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/leakage-policy.schema.json",
+  "title": "Case-scoped leakage policy and exceptions",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "policy_version",
+    "case_id",
+    "additional_sensitive_shas",
+    "repair_texts",
+    "evidence_fragments",
+    "exceptions"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "policy_version": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$",
+      "maxLength": 100
+    },
+    "case_id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "maxLength": 80
+    },
+    "additional_sensitive_shas": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"$ref": "#/$defs/fullSha"}
+    },
+    "repair_texts": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 4000}
+    },
+    "evidence_fragments": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {"type": "string", "minLength": 1, "maxLength": 4000}
+    },
+    "exceptions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "exception_id",
+          "rule_id",
+          "location_class",
+          "match_digest",
+          "expires_at",
+          "actor",
+          "reason"
+        ],
+        "properties": {
+          "exception_id": {
+            "type": "string",
+            "pattern": "^exception-[a-z0-9]+(?:-[a-z0-9]+)*$",
+            "maxLength": 120
+          },
+          "rule_id": {"$ref": "#/$defs/ruleId"},
+          "location_class": {"$ref": "#/$defs/locationClass"},
+          "match_digest": {"$ref": "#/$defs/digest"},
+          "expires_at": {"type": "string", "format": "date-time"},
+          "actor": {"type": "string", "minLength": 1, "maxLength": 200},
+          "reason": {"type": "string", "minLength": 1, "maxLength": 1000}
+        }
+      }
+    }
+  },
+  "$defs": {
+    "fullSha": {"type": "string", "pattern": "^[0-9a-f]{40}$"},
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "ruleId": {
+      "enum": [
+        "LEAKAGE_SENSITIVE_SHA",
+        "LEAKAGE_EXPECTED_PHRASE",
+        "LEAKAGE_REPAIR_TEXT",
+        "LEAKAGE_FIXED_FINGERPRINT",
+        "LEAKAGE_EVIDENCE_FRAGMENT",
+        "LEAKAGE_SNAPSHOT_LABEL"
+      ]
+    },
+    "locationClass": {
+      "enum": [
+        "serialized_request",
+        "profile",
+        "filename",
+        "tool_configuration",
+        "context_bundle"
+      ]
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0",
+  "adjudication_id": "adjudication-synthetic-one",
+  "run_id": "run-synthetic-one",
+  "finding_id": "F001",
+  "expected_mechanism_id": "mechanism-synthetic",
+  "decision": "match",
+  "rubric_version": "1.0",
+  "adjudicator": "synthetic-adjudicator",
+  "timestamp": "2026-01-01T00:00:00Z",
+  "rationale": "Synthetic rationale",
+  "supersedes": null
+}

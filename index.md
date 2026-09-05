@@ -1,8 +1,13 @@
 # Case study: a pre-registered evaluation that said no
 
-**One-line summary.** I built a blinded, pre-registered evaluation harness to test whether a
+**One-line summary.** I built a pre-registered evaluation harness to test whether a
 candidate adversarial review profile improved an LLM code reviewer, ran the frozen
 experiment, and published the negative result unedited: **reject**.
+
+**Method correction:** historical provider inputs exposed scorer labels, and the available
+records do not support a human-adjudication claim. The reports below are preserved; see
+[versioned methodology and provenance limits](methods/versions.md) and the
+[runnable synthetic implementation](README.md).
 
 ## The question
 
@@ -27,9 +32,10 @@ bugs" from "flags more of everything."
 - **Design.** Paired baseline-vs-candidate runs over vulnerable/fixed × 3 repetitions —
   180 planned runs. Execution order randomized and interleaved; model, prompt, schema,
   retry policy, and environment frozen by digest before the first provider call.
-- **Blinding.** Human adjudication of findings happened before profile labels were
-  unmasked. Adjudication packets exposed neither the condition, the snapshot label, nor the
-  expected answer beyond a short matching rubric.
+- **Adjudication.** The workflow masked condition labels in adjudication packets. Available
+  execution records name model adjudicators; this was not established as a human annotation
+  study. Historical provider-input labels and an artifact-binding gap limit the evidence;
+  see the versioned method before interpreting the results.
 - **Pre-registered decision rule.** Frozen before execution: *adopt* required repeatable
   lift with a strictly positive 95% interval lower bound and no false-positive increase;
   *reject* triggered on non-positive net lift **or** any fixed-control false-positive
@@ -50,8 +56,8 @@ Net useful lift was non-positive and fixed-control false positives increased. Ei
 independently triggers the frozen reject rule. **Decision: reject.**
 
 Read carefully, this is a "no demonstrated benefit, slight harm signal" rejection — every
-interval straddles zero, and the observed effects sit an order of magnitude below the
-pre-declared minimum detectable effect. The rule is deliberately asymmetric: the candidate
+interval includes zero, and the observed effects are smaller than the
+pre-declared effect of practical interest. The rule is deliberately asymmetric: the candidate
 carries the burden of proof, and a tie goes to the baseline. The result is not proof the
 candidate is harmful; it is proof the candidate did not earn adoption on this corpus.
 
@@ -67,16 +73,16 @@ reject — are published with digests.
 
 Separately, the exploratory (non-primary) analysis showed the candidate wasn't inert: its
 finding precision on fixed snapshots was 0.96 versus the baseline's 0.85, and across the
-experiment human adjudication validated 63 deduplicated real issues (59 of them beyond
+experiment the exploratory assessment classified 63 deduplicated issues as valid (59 beyond
 the planted mechanisms) at ~0.90 overall precision. The candidate changes reviewer behavior — it just
 doesn't detectably improve detection of the target defects, which is the thing adoption
 was gated on.
 
 ## Limitations, stated plainly
 
-- 15 cases can only detect large effects (~20pp minimum). Small real improvements would be
-  invisible; this is why the pre-registered rule treats "undetected" as "not adopted"
-  rather than as evidence of equivalence.
+- Fifteen cases give imprecise estimates. The ~20pp practical-interest threshold is not a
+  demonstrated detection limit; the intervals do not establish equivalence or exclude
+  smaller improvements.
 - The provider CLI exposed no billed usage, so actual cost is reported as unknown against a
   frozen worst-case budget rather than estimated and presented as fact.
 - Results cover a local development corpus; no holdout or large-context generalization is
@@ -84,12 +90,11 @@ was gated on.
 
 ## Why publish a negative result
 
-The harness is the product: frozen experiment manifests, fail-closed leakage validation
-between the corpus and the reviewer context, blinded adjudication with append-only
-decisions, byte-stable canonical reports, and a disclosure boundary that mechanically
-rejects case identities, source revisions, prompts, and holdout membership from anything
-public. The reject decision is the evidence that the gate is real — a pipeline that can
-only ever say yes isn't an evaluation.
+The implementation exposes frozen manifests, leakage validation, append-only adjudication
+records, paired scoring, and canonical reports. The historical reject decision shows that
+the adoption rule could decline a candidate. It does not establish the correctness of every
+input boundary or adjudication. The public synthetic replay makes the current code
+inspectable and runnable while the versioned method states the remaining evidence gaps.
 
 Next step, when warranted: a revised candidate profile, informed by the exploratory error
 analysis, evaluated under a newly frozen experiment against the same discipline.

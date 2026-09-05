@@ -1,0 +1,14 @@
+{
+  "version": 1,
+  "hash_kind": "sha256-of-markdown-file-bytes",
+  "files": [
+    {
+      "path": "m3-development-reject.md",
+      "sha256": "44bb9746063d0e16f09641f8acb707e834688385c78474aac6dac82cfce6f029"
+    },
+    {
+      "path": "m3-development-insufficient-evidence.md",
+      "sha256": "ff74bcec9a9ecebe6bfed45f9dfa37f986e35bb290944e20900ea08892630258"
+    }
+  ]
+}

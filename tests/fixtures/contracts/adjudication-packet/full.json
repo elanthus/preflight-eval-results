@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "packet_id": "packet-d27abcfc4700051f7acbde9ac24deb0b",
+  "rubric_version": "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "exported_at": "2026-08-18T12:00:00Z",
+  "calibration_size": 1,
+  "items": [
+    {
+      "assignment_id": "assignment-22222222222222222222222222222222",
+      "calibration": true,
+      "finding": {
+        "title": "Synthetic detailed finding",
+        "explanation": "Synthetic detailed explanation",
+        "file_path": "src/example.py",
+        "start_line": 10,
+        "end_line": 12,
+        "severity": "medium",
+        "defect_category": "security",
+        "failure_mechanism": "Synthetic detailed mechanism claim",
+        "confidence": 0.75,
+        "evidence": [{"source_type": "diff", "reference": "src/example.py:10-12"}]
+      },
+      "rubric": "Match the detailed synthetic mechanism"
+    }
+  ],
+  "content_digest": "sha256:d27abcfc4700051f7acbde9ac24deb0bf526bfc93d0c750b3aac1890e8bcf6c8"
+}

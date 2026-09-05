@@ -1,0 +1,65 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/m2-finding-assessment.schema.json",
+  "title": "Single-adjudicator M2 finding assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "packet_id",
+    "packet_digest",
+    "adjudicator",
+    "assessed_at",
+    "assessments",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "packet_id": {"type": "string", "pattern": "^packet-[a-f0-9]{32}$"},
+    "packet_digest": {"$ref": "#/$defs/digest"},
+    "adjudicator": {"type": "string", "minLength": 1, "maxLength": 120},
+    "assessed_at": {"type": "string", "format": "date-time"},
+    "assessments": {
+      "type": "array",
+      "minItems": 0,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+          "required": [
+            "assignment_id",
+            "mechanism_decision",
+            "validity",
+            "issue_kind",
+            "additional_issue_group",
+          "rationale"
+        ],
+        "properties": {
+          "assignment_id": {"type": "string", "pattern": "^assignment-[a-f0-9]{32}$"},
+          "mechanism_decision": {"enum": ["match", "no_match", "uncertain"]},
+          "validity": {"enum": ["valid", "false_positive", "uncertain"]},
+          "issue_kind": {"enum": ["code", "documentation", "uncertain"]},
+          "additional_issue_group": {
+            "oneOf": [
+              {"type": "null"},
+              {
+                "type": "string",
+                "pattern": "^issue-[a-z0-9]+(?:-[a-z0-9]+)*$",
+                "maxLength": 120
+              }
+            ]
+          },
+          "rationale": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 5000,
+            "pattern": "^[^\\u0000-\\u001f]+$"
+          }
+        }
+      }
+    },
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[a-f0-9]{64}$"}
+  }
+}

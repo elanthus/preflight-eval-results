@@ -1,0 +1,122 @@
+[general]
+base_ref = "main"
+
+[commands]
+lint = "uv run --locked ruff check . && uv run --locked mypy && uv run --locked python scripts/check_source_manifest.py"
+test = "uv run --locked pytest -q && uv run --locked python scripts/verify_distribution.py"
+
+[docs]
+enabled = true
+paths = ["README.md", "index.md", "methods/**"]
+
+[diff]
+max_bytes = 2000000
+# Mechanically exported library/schema/fixture bytes are pinned in source-manifest.json.
+# Keep unchanged exports in the PR; public repairs are included in the local review.
+exclude = [
+  "src/preflight_evals/adjudicate.py",
+  "src/preflight_evals/artifact_policy.py",
+  "src/preflight_evals/attempt_metadata.py",
+  "src/preflight_evals/canonical.py",
+  "src/preflight_evals/config.py",
+  "src/preflight_evals/curator_models.py",
+  "src/preflight_evals/discovery.py",
+  "src/preflight_evals/errors.py",
+  "src/preflight_evals/holdout.py",
+  "src/preflight_evals/leakage.py",
+  "src/preflight_evals/m2_validation.py",
+  "src/preflight_evals/model_types.py",
+  "src/preflight_evals/pricing.py",
+  "src/preflight_evals/recovery.py",
+  "src/preflight_evals/report.py",
+  "src/preflight_evals/request_contract.py",
+  "src/preflight_evals/reviewer_models.py",
+  "src/preflight_evals/schema.py",
+  "src/preflight_evals/score.py",
+  "src/preflight_evals/scorer_models.py",
+  "schemas/adjudication-decisions.schema.json",
+  "schemas/adjudication-packet.schema.json",
+  "schemas/adjudication.schema.json",
+  "schemas/attempt-metadata.schema.json",
+  "schemas/case.schema.json",
+  "schemas/catalog.schema.json",
+  "schemas/corpus-split.schema.json",
+  "schemas/experiment.schema.json",
+  "schemas/finding.schema.json",
+  "schemas/gold.schema.json",
+  "schemas/leakage-policy.schema.json",
+  "schemas/m2-finding-assessment.schema.json",
+  "schemas/private/curator-import.schema.json",
+  "schemas/prompt-manifest.schema.json",
+  "schemas/reviewer-output.schema.json",
+  "schemas/run-record.schema.json",
+  "schemas/score-result.schema.json",
+  "tests/test_adapter.py",
+  "tests/test_canonical.py",
+  "tests/__init__.py",
+  "tests/fixtures/contracts/adjudication/full.json",
+  "tests/fixtures/contracts/adjudication/invalid.json",
+  "tests/fixtures/contracts/adjudication/minimum.json",
+  "tests/fixtures/contracts/adjudication-decisions/full.json",
+  "tests/fixtures/contracts/adjudication-decisions/invalid.json",
+  "tests/fixtures/contracts/adjudication-decisions/minimum.json",
+  "tests/fixtures/contracts/adjudication-packet/full.json",
+  "tests/fixtures/contracts/adjudication-packet/invalid.json",
+  "tests/fixtures/contracts/adjudication-packet/minimum.json",
+  "tests/fixtures/contracts/aggregate-report/invalid.json",
+  "tests/fixtures/contracts/aggregate-report/minimum.json",
+  "tests/fixtures/contracts/attempt-metadata/full.json",
+  "tests/fixtures/contracts/attempt-metadata/invalid.json",
+  "tests/fixtures/contracts/attempt-metadata/minimum.json",
+  "tests/fixtures/contracts/case/full.json",
+  "tests/fixtures/contracts/case/invalid.json",
+  "tests/fixtures/contracts/case/minimum.json",
+  "tests/fixtures/contracts/catalog/full.json",
+  "tests/fixtures/contracts/catalog/invalid.json",
+  "tests/fixtures/contracts/catalog/minimum.json",
+  "tests/fixtures/contracts/corpus-split/invalid.json",
+  "tests/fixtures/contracts/corpus-split/minimum.json",
+  "tests/fixtures/contracts/experiment/full.json",
+  "tests/fixtures/contracts/experiment/invalid.json",
+  "tests/fixtures/contracts/experiment/minimum.json",
+  "tests/fixtures/contracts/finding/full.json",
+  "tests/fixtures/contracts/finding/invalid.json",
+  "tests/fixtures/contracts/finding/minimum.json",
+  "tests/fixtures/contracts/gold/full.json",
+  "tests/fixtures/contracts/gold/invalid.json",
+  "tests/fixtures/contracts/gold/minimum.json",
+  "tests/fixtures/contracts/leakage-policy/full.json",
+  "tests/fixtures/contracts/leakage-policy/invalid.json",
+  "tests/fixtures/contracts/leakage-policy/minimum.json",
+  "tests/fixtures/contracts/m2-finding-assessment/full.json",
+  "tests/fixtures/contracts/m2-finding-assessment/invalid.json",
+  "tests/fixtures/contracts/m2-finding-assessment/minimum.json",
+  "tests/fixtures/contracts/prompt-manifest/full.json",
+  "tests/fixtures/contracts/prompt-manifest/invalid.json",
+  "tests/fixtures/contracts/prompt-manifest/legacy-1.2.json",
+  "tests/fixtures/contracts/prompt-manifest/minimum.json",
+  "tests/fixtures/contracts/reviewer-output/full.json",
+  "tests/fixtures/contracts/reviewer-output/invalid.json",
+  "tests/fixtures/contracts/reviewer-output/minimum.json",
+  "tests/fixtures/contracts/run-record/full.json",
+  "tests/fixtures/contracts/run-record/invalid.json",
+  "tests/fixtures/contracts/run-record/minimum.json",
+  "tests/fixtures/contracts/score-result/full.json",
+  "tests/fixtures/contracts/score-result/invalid.json",
+  "tests/fixtures/contracts/score-result/minimum.json",
+  "tests/fixtures/report/public.md",
+  "config.example.toml",
+  "tests/fixtures/gold-v2.json",
+  "examples/synthetic-v1/*.json",
+  "uv.lock"
+]
+
+[policy]
+human_review_paths = [".agentic-preflight.toml", ".github/workflows/**", "pyproject.toml", "uv.lock"]
+
+[pr]
+mode = "auto"
+automatedCleanup = true
+
+[approval]
+mode = "manual_merge"

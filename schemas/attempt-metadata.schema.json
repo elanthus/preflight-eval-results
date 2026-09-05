@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight.example/schemas/attempt-metadata.schema.json",
+  "title": "Provider Attempt Metadata",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "experiment_content_digest",
+    "run_id",
+    "attempt",
+    "request_digest",
+    "provider",
+    "model",
+    "provider_request_id",
+    "started_at",
+    "ended_at",
+    "monotonic_latency_ms",
+    "response_digest",
+    "usage",
+    "provider_reported_cost",
+    "run_record_digest",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "experiment_id": {"type": "string", "pattern": "^experiment-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "experiment_content_digest": {"$ref": "#/$defs/digest"},
+    "run_id": {"type": "string", "pattern": "^run-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "attempt": {"type": "integer", "minimum": 1, "maximum": 10},
+    "request_digest": {"$ref": "#/$defs/digest"},
+    "provider": {"type": "string", "minLength": 1, "maxLength": 100},
+    "model": {"type": "string", "minLength": 1, "maxLength": 200},
+    "provider_request_id": {"type": ["string", "null"], "minLength": 1, "maxLength": 200},
+    "started_at": {"type": "string", "format": "date-time"},
+    "ended_at": {"type": "string", "format": "date-time"},
+    "monotonic_latency_ms": {"type": "number", "minimum": 0},
+    "response_digest": {"$ref": "#/$defs/digest"},
+    "usage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["input_tokens", "cached_input_tokens", "output_tokens", "reasoning_tokens"],
+      "properties": {
+        "input_tokens": {"$ref": "#/$defs/nullableCount"},
+        "cached_input_tokens": {"$ref": "#/$defs/nullableCount"},
+        "output_tokens": {"$ref": "#/$defs/nullableCount"},
+        "reasoning_tokens": {"$ref": "#/$defs/nullableCount"}
+      }
+    },
+    "provider_reported_cost": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["currency", "total_usd"],
+      "properties": {
+        "currency": {"const": "USD"},
+        "total_usd": {"type": ["number", "null"], "minimum": 0}
+      }
+    },
+    "run_record_digest": {"$ref": "#/$defs/digest"},
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "nullableCount": {"type": ["integer", "null"], "minimum": 0}
+  }
+}

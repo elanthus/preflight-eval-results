@@ -1,0 +1,315 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/score-result.schema.json",
+  "title": "Content-addressed deterministic scoring result",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "experiment_id",
+    "experiment_digest",
+    "invalid_output_policy",
+    "runs",
+    "content_digest"
+  ],
+  "properties": {
+    "schema_version": {"enum": ["1.0", "2.0"]},
+    "experiment_id": {"type": "string", "pattern": "^experiment-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "experiment_digest": {"$ref": "#/$defs/digest"},
+    "invalid_output_policy": {"const": "retry_then_fail"},
+    "runs": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/scoredRun"}
+    },
+    "content_digest": {"$ref": "#/$defs/digest"}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {"schema_version": {"const": "1.0"}},
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "runs": {"items": {"$ref": "#/$defs/scoredRunV1"}}
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {"schema_version": {"const": "2.0"}},
+        "required": ["schema_version"]
+      },
+      "then": {
+        "properties": {
+          "runs": {"items": {"$ref": "#/$defs/scoredRunV2"}}
+        }
+      }
+    }
+  ],
+  "$defs": {
+    "digest": {"type": "string", "pattern": "^sha256:[0-9a-f]{64}$"},
+    "repositoryPath": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "^(?!/)(?!.*\\\\)(?!.*(?:^|/)\\.\\.?(?:/|$))(?!.*//)[^\\u0000]+$"
+    },
+    "scoredRun": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "run_id",
+        "case_id",
+        "snapshot",
+        "condition",
+        "repetition",
+        "input_digests",
+        "terminal_status",
+        "outcome",
+        "findings"
+      ],
+      "properties": {
+        "run_id": {"type": "string", "pattern": "^run-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "case_id": {"type": "string", "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$"},
+        "snapshot": {"enum": ["vulnerable", "fixed"]},
+        "condition": {"enum": ["baseline", "candidate"]},
+        "repetition": {"type": "integer", "minimum": 1},
+        "input_digests": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["run_record", "planned_run", "gold", "adjudications"],
+          "properties": {
+            "run_record": {"$ref": "#/$defs/digest"},
+            "planned_run": {"$ref": "#/$defs/digest"},
+            "gold": {"$ref": "#/$defs/digest"},
+            "adjudications": {"$ref": "#/$defs/digest"}
+          }
+        },
+        "terminal_status": {
+          "enum": [
+            "succeeded",
+            "invalid_output",
+            "provider_error",
+            "configuration_error",
+            "adapter_error",
+            "timeout"
+          ]
+        },
+        "outcome": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["name", "primary", "pessimistic", "optimistic"],
+          "properties": {
+            "name": {
+              "enum": [
+                "vulnerable_detection",
+                "fixed_repaired_mechanism_false_positive"
+              ]
+            },
+            "primary": {"type": ["boolean", "null"]},
+            "pessimistic": {"type": "boolean"},
+            "optimistic": {"type": "boolean"}
+          }
+        },
+        "findings": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/scoredFinding"}
+        },
+        "mechanism_outcomes": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/mechanismOutcome"}
+        }
+      }
+    },
+    "scoredRunV1": {
+      "allOf": [
+        {"$ref": "#/$defs/scoredRun"},
+        {
+          "not": {"required": ["mechanism_outcomes"]},
+          "properties": {
+            "findings": {
+              "items": {"$ref": "#/$defs/scoredFindingV1"}
+            }
+          }
+        }
+      ]
+    },
+    "scoredRunV2": {
+      "allOf": [
+        {"$ref": "#/$defs/scoredRun"},
+        {
+          "required": ["mechanism_outcomes"],
+          "properties": {
+            "findings": {
+              "items": {"$ref": "#/$defs/scoredFindingV2"}
+            }
+          }
+        }
+      ]
+    },
+    "scoredFinding": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "finding_id",
+        "finding_digest",
+        "duplicate_of",
+        "checks",
+        "mechanisms",
+        "disposition"
+      ],
+      "properties": {
+        "finding_id": {"type": "string", "pattern": "^F[0-9]{3,}$"},
+        "finding_digest": {"$ref": "#/$defs/digest"},
+        "duplicate_of": {
+          "type": ["string", "null"],
+          "pattern": "^F[0-9]{3,}$"
+        },
+        "checks": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["path", "accepted_path", "location", "category", "severity"],
+          "properties": {
+            "path": {"enum": ["exact", "alias", "none"]},
+            "accepted_path": {
+              "oneOf": [{"$ref": "#/$defs/repositoryPath"}, {"type": "null"}]
+            },
+            "location": {"type": "boolean"},
+            "category": {"type": "boolean"},
+            "severity": {"type": "boolean"}
+          }
+        },
+        "mechanisms": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["mechanism_id", "decision", "adjudication_digest"],
+            "properties": {
+              "mechanism_id": {
+                "type": "string",
+                "pattern": "^mechanism-[a-z0-9]+(?:-[a-z0-9]+)*$"
+              },
+              "decision": {
+                "enum": ["match", "no_match", "uncertain", "unadjudicated"]
+              },
+              "adjudication_digest": {
+                "oneOf": [{"$ref": "#/$defs/digest"}, {"type": "null"}]
+              },
+              "evaluation_role": {"enum": ["primary", "supplemental"]},
+              "expected_status": {"$ref": "#/$defs/snapshotExpectation"},
+              "checks": {"$ref": "#/$defs/checks"},
+              "disposition": {
+                "enum": [
+                  "expected_match",
+                  "unexpected_claim",
+                  "partial",
+                  "unresolved",
+                  "unrelated",
+                  "unmatched",
+                  "unscored"
+                ]
+              }
+            }
+          }
+        },
+        "disposition": {
+          "enum": [
+            "matched",
+            "repaired_mechanism_claim",
+            "partial",
+            "duplicate",
+            "unrelated",
+            "unmatched"
+          ]
+        }
+      }
+    },
+    "scoredFindingV1": {
+      "allOf": [
+        {"$ref": "#/$defs/scoredFinding"},
+        {
+          "properties": {
+            "mechanisms": {
+              "items": {
+                "not": {
+                  "anyOf": [
+                    {"required": ["evaluation_role"]},
+                    {"required": ["expected_status"]},
+                    {"required": ["checks"]},
+                    {"required": ["disposition"]}
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "scoredFindingV2": {
+      "allOf": [
+        {"$ref": "#/$defs/scoredFinding"},
+        {
+          "properties": {
+            "mechanisms": {
+              "items": {
+                "required": [
+                  "evaluation_role",
+                  "expected_status",
+                  "checks",
+                  "disposition"
+                ]
+              }
+            }
+          }
+        }
+      ]
+    },
+    "checks": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["path", "accepted_path", "location", "category", "severity"],
+      "properties": {
+        "path": {"enum": ["exact", "alias", "none"]},
+        "accepted_path": {
+          "oneOf": [{"$ref": "#/$defs/repositoryPath"}, {"type": "null"}]
+        },
+        "location": {"type": "boolean"},
+        "category": {"type": "boolean"},
+        "severity": {"type": "boolean"}
+      }
+    },
+    "mechanismOutcome": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "mechanism_id",
+        "evaluation_role",
+        "expected_status",
+        "classification"
+      ],
+      "properties": {
+        "mechanism_id": {
+          "type": "string",
+          "pattern": "^mechanism-[a-z0-9]+(?:-[a-z0-9]+)*$"
+        },
+        "evaluation_role": {"enum": ["primary", "supplemental"]},
+        "expected_status": {"$ref": "#/$defs/snapshotExpectation"},
+        "classification": {
+          "enum": [
+            "true_positive",
+            "false_positive",
+            "false_negative",
+            "true_negative",
+            "unresolved",
+            "unverified"
+          ]
+        }
+      }
+    },
+    "snapshotExpectation": {"enum": ["present", "absent", "unverified"]}
+  }
+}

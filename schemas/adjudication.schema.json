@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://agentic-preflight-evals.local/schemas/adjudication.schema.json",
+  "title": "Blind adjudication record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "adjudication_id",
+    "run_id",
+    "finding_id",
+    "expected_mechanism_id",
+    "decision",
+    "rubric_version",
+    "adjudicator",
+    "timestamp",
+    "rationale",
+    "supersedes"
+  ],
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "adjudication_id": {"type": "string", "pattern": "^adjudication-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "run_id": {"type": "string", "pattern": "^run-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "finding_id": {"type": "string", "pattern": "^F[0-9]{3,}$"},
+    "expected_mechanism_id": {"type": "string", "pattern": "^mechanism-[a-z0-9]+(?:-[a-z0-9]+)*$"},
+    "decision": {"enum": ["match", "no_match", "uncertain"]},
+    "rubric_version": {"type": "string", "minLength": 1, "maxLength": 100},
+    "adjudicator": {"type": "string", "minLength": 1, "maxLength": 120},
+    "timestamp": {"type": "string", "format": "date-time"},
+    "rationale": {"type": "string", "minLength": 1, "maxLength": 4000},
+    "supersedes": {
+      "type": ["string", "null"],
+      "pattern": "^adjudication-[a-z0-9]+(?:-[a-z0-9]+)*$"
+    }
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0",
+  "experiment_id": "experiment-11111111111111111111111111111111",
+  "experiment_content_digest": "sha256:2222222222222222222222222222222222222222222222222222222222222222",
+  "run_id": "run-33333333333333333333333333333333",
+  "attempt": 1,
+  "request_digest": "sha256:4444444444444444444444444444444444444444444444444444444444444444",
+  "provider": "synthetic",
+  "model": "synthetic-reviewer",
+  "provider_request_id": null,
+  "started_at": "2026-08-23T01:00:00Z",
+  "ended_at": "2026-08-23T01:00:01Z",
+  "monotonic_latency_ms": 1000.0,
+  "response_digest": "sha256:5555555555555555555555555555555555555555555555555555555555555555",
+  "usage": {
+    "input_tokens": null,
+    "cached_input_tokens": null,
+    "output_tokens": null,
+    "reasoning_tokens": null
+  },
+  "provider_reported_cost": {"currency": "USD", "total_usd": null},
+  "run_record_digest": "sha256:6666666666666666666666666666666666666666666666666666666666666666",
+  "content_digest": "sha256:3c1048c5b8aab87b91f6245573113c24a80843d3e629882c166ab4e8cb1430b8"
+}

@@ -1,0 +1,83 @@
+{
+  "schema_version": "1.0",
+  "algorithm": "exhaustive-stratified-squared-deviation-v1",
+  "seed": 10,
+  "target_holdout_count": 2,
+  "locked_development": [
+    "synthetic-split-0"
+  ],
+  "assignments": [
+    {
+      "case_id": "synthetic-split-0",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-1",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-2",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-3",
+      "role": "holdout",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-4",
+      "role": "holdout",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    },
+    {
+      "case_id": "synthetic-split-5",
+      "role": "development",
+      "repository": "example/project",
+      "defect_category": "evaluation_integrity",
+      "context_size_band": "small"
+    }
+  ],
+  "ordered_holdout": [
+    "synthetic-split-3",
+    "synthetic-split-4"
+  ],
+  "ordered_holdout_checksum": "sha256:9f80cb6b7a1f81732d89aca2ebe66e385dc1c3a9d71d73bfe6a29e8d1908269f",
+  "balance": [
+    {
+      "dimension": "repository",
+      "value": "example/project",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    },
+    {
+      "dimension": "defect_category",
+      "value": "evaluation_integrity",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    },
+    {
+      "dimension": "context_size_band",
+      "value": "small",
+      "total": 6,
+      "development": 4,
+      "holdout": 2
+    }
+  ],
+  "objective_score": 0,
+  "content_digest": "sha256:87b478d0cb140a290ef81f6522dd806896c7437480195ad606b436f8f37992a6"
+}

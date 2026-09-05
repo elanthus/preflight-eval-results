@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "packet_id": "packet-00000000000000000000000000000000",
+  "packet_digest": "sha256:1111111111111111111111111111111111111111111111111111111111111111",
+  "adjudicator": "Independent reviewer",
+  "assessed_at": "2026-08-19T12:00:00Z",
+  "assessments": [
+    {
+      "assignment_id": "assignment-22222222222222222222222222222222",
+      "mechanism_decision": "no_match",
+      "validity": "false_positive",
+      "issue_kind": "code",
+      "additional_issue_group": null,
+      "rationale": "The claimed failure is not reachable from the reviewed code."
+    }
+  ],
+  "content_digest": "sha256:b0802e0d0ee425862a5ab06ca7b29bc66a736a8144334cff345437699c176207"
+}
