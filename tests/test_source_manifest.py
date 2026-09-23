@@ -50,3 +50,36 @@ def test_manifest_rejects_replay_asset_drift(tmp_path: Path, asset: str, tamper:
         message = "unlisted implementation assets"
     with pytest.raises(SystemExit, match=message):
         verify(tmp_path)
+
+
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("current_sha256", "0" * 64, "replacement record is stale"),
+        ("current_content_digest", "sha256:" + "0" * 64, "replacement content digest is stale"),
+    ],
+)
+def test_manifest_rejects_a_stale_replacement_record(
+    tmp_path: Path, field: str, value: str, message: str
+) -> None:
+    _copy_assets(tmp_path)
+    verify(tmp_path)
+    path = tmp_path / "methods/historical-artifacts.json"
+    historical = json.loads(path.read_text())
+    historical["replacements"][0][field] = value
+    path.write_text(json.dumps(historical))
+    with pytest.raises(SystemExit, match=message):
+        verify(tmp_path)
+
+
+def test_manifest_rejects_a_replacement_whose_report_json_is_unpinned(tmp_path: Path) -> None:
+    _copy_assets(tmp_path)
+    path = tmp_path / "methods/historical-artifacts.json"
+    historical = json.loads(path.read_text())
+    report = Path(historical["replacements"][0]["path"]).with_suffix(".json").as_posix()
+    historical["files"] = [entry for entry in historical["files"] if entry["path"] != report]
+    path.write_text(json.dumps(historical))
+    # The JSON stays on disk: presence alone must not satisfy the check.
+    assert (tmp_path / report).is_file()
+    with pytest.raises(SystemExit, match="report JSON is not pinned"):
+        verify(tmp_path)

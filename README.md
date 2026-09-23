@@ -1,11 +1,32 @@
 # Preflight evaluation reference
 
-Run a complete offline scoring and statistical replay with public synthetic inputs. This
-repository also publishes the reusable evaluation library and preserves the historical
-aggregate reports for the Agentic Preflight review-profile experiment.
+I built a pre-registered evaluation harness to test whether a candidate adversarial review
+profile improved an LLM code reviewer, ran the frozen experiment, and published the negative
+result unedited: **reject**.
 
-The replay makes **zero model calls**. It reproduces the synthetic result exactly; the private
-inputs needed to reproduce the historical 15-case experiment are not included.
+| Metric | Exact difference | 95% interval |
+| --- | ---: | ---: |
+| Vulnerable-detection lift | +1/45 (+2.2pp) | [−11.1pp, +15.6pp] |
+| Fixed-control false-positive increase | +2/45 (+4.4pp) | [0.0pp, +13.3pp] |
+| Net useful lift | −1/45 (−2.2pp) | [−13.3pp, +6.7pp] |
+
+In plain terms: each of 15 test cases is a real bug in two versions of the same code, one
+with the bug and one with it fixed, and each was reviewed three times with the old review
+instructions and three times with the new ones: 45 old-versus-new pairs for each version,
+90 pairs and 180 runs in all. On the buggy versions, the new instructions caught the bug
+once more than the old ones; on the fixed versions, they complained about already-fixed code
+twice more. That is no demonstrated benefit and a slight sign of harm, so
+the rule written down before the experiment said not to adopt them. The sample is small, and
+every interval includes zero.
+
+Read the full case study at **[elanthus.github.io/preflight-eval-results](https://elanthus.github.io/preflight-eval-results/)**.
+
+*By Michael Swailes.*
+
+This repository publishes that case study, its aggregate reports, and the reusable evaluation
+library, with an offline synthetic replay you can run. The replay makes **zero model calls**.
+It reproduces the synthetic result exactly; the private inputs needed to reproduce the
+historical 15-case experiment are not included.
 
 ## Reproduce the example
 
@@ -74,12 +95,14 @@ case corpus, holdout membership, raw findings, or provider traces are exported.
 
 ## Historical evidence
 
-Read the [corrected case study](index.md), [final aggregate report](m3-development-reject.md),
-and [initial aggregate report](m3-development-insufficient-evidence.md). The reports retain
-their original bytes. [Method versions](methods/versions.md) distinguish the historical
-request contract, current leakage controls, and this synthetic replay. Historical claims of
-human adjudication and complete provider blinding are withdrawn; current fixes cannot
-retroactively establish those properties for an earlier run.
+Read the [case study](index.md), the [method and results write-up](methods/method-and-results.md),
+the [final aggregate report](m3-development-reject.md), and the
+[initial aggregate report](m3-development-insufficient-evidence.md). Each report's canonical
+JSON sits beside its Markdown. [Method versions](methods/versions.md) distinguish the
+historical request contract, current leakage controls, and this synthetic replay, and list
+every correction with its date. Current fixes cannot retroactively establish properties such
+as complete provider blinding for an earlier run.
 
-This is a public reference implementation. The existing proprietary licensing designation is
-retained; publication does not add an open-source license.
+## License
+
+Licensed under the [Apache License, Version 2.0](LICENSE).

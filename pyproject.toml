@@ -8,7 +8,9 @@ version = "1.0.0"
 description = "Reproducible synthetic replay and reusable Agentic Preflight evaluation library"
 readme = "README.md"
 requires-python = ">=3.12"
-license = {text = "Proprietary"}
+license = "Apache-2.0"
+license-files = ["LICENSE"]
+authors = [{ name = "Michael Swailes" }]
 dependencies = ["jsonschema>=4.25,<5", "numpy>=2.3,<3", "PyYAML>=6,<7", "rfc3339-validator>=0.1.4,<1", "rfc3986-validator>=0.1.1,<1", "tiktoken>=0.11,<1"]
 
 [project.scripts]

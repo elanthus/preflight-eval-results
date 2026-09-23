@@ -116,7 +116,7 @@ human_review_paths = [".agentic-preflight.toml", ".github/workflows/**", "pyproj
 
 [pr]
 mode = "auto"
-automatedCleanup = true
+automated_cleanup = false
 
 [approval]
 mode = "manual_merge"

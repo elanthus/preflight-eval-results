@@ -36,20 +36,20 @@ Candidate minus baseline fixed-control false positives: Unknown (1/45), 95% inte
 
 | Snapshot | Condition | Complete cases | Unresolved cases | Discordant cases | Mean within-case variance |
 | --- | --- | ---: | ---: | ---: | ---: |
-| vulnerable | baseline | 14 | 1 | 1 | 0.015873015873015876 |
-| vulnerable | candidate | 12 | 3 | 2 | 0.03703703703703704 |
-| fixed | baseline | 14 | 1 | 0 | 0.0 |
-| fixed | candidate | 11 | 4 | 0 | 0.0 |
+| vulnerable | baseline | 14 | 1 | 1 | 0.016 |
+| vulnerable | candidate | 12 | 3 | 2 | 0.037 |
+| fixed | baseline | 14 | 1 | 0 | 0.000 |
+| fixed | candidate | 11 | 4 | 0 | 0.000 |
 
 ## Operations and cost
 
-- Latency median / p95 (ms): 49723.10677089263 / 108959.90287489258
+- Latency median / p95 (ms): 49,723 / 108,960
 - Provider input tokens: Unknown
 - Provider output tokens: Unknown
-- Tokenizer-estimated input tokens: 733950.0
+- Tokenizer-estimated input tokens: 733,950
 - Actual cost: Unknown (usage or matching dated price is incomplete)
 - Projected total cost: Unknown (usage or matching dated price is incomplete)
-- Frozen worst-case budget: $855.360000
+- Frozen worst-case budget: $855.36
 - Price table: openai-gpt-5\.4-2026-08-18 (effective 2026-08-18)
 
 ## Aggregate breakdowns
@@ -57,11 +57,11 @@ Candidate minus baseline fixed-control false positives: Unknown (1/45), 95% inte
 | Dimension | Value | Cases | Vulnerable lift | Fixed false-positive increase |
 | --- | --- | ---: | ---: | ---: |
 | category | correctness | 11 | Unknown | Unknown |
-| category | operational\_contract | 5 | Unknown | 0.0 |
+| category | operational\_contract | 5 | Unknown | 0.000 |
 | category | security | 5 | Unknown | Unknown |
 | context\_size | medium | 7 | Unknown | Unknown |
 | context\_size | small | 6 | Unknown | Unknown |
-| repository | agentic-preflight | 5 | 0.06666666666666667 | 0.0 |
+| repository | agentic-preflight | 5 | 0.067 | 0.000 |
 | repository | jobwright | 5 | Unknown | Unknown |
 | severity | high | 10 | Unknown | Unknown |
 | severity | medium | 5 | Unknown | Unknown |
@@ -81,15 +81,15 @@ Candidate minus baseline fixed-control false positives: Unknown (1/45), 95% inte
 - Valid documentation issue instances / unique: 2 / 1
 - Code / documentation false positives: 10 / 7
 - Uncertain findings: 0
-- Resolved finding precision: 0.9095744680851063
-- False-positive rate: 0.09042553191489362
+- Resolved finding precision: 0.910
+- False-positive rate: 0.090
 
 | Condition | Snapshot | Findings | Valid instances | Unique valid issues | Additional valid | False positives | Precision |
 | --- | --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| baseline | vulnerable | 53 | 46 | 27 | 41 | 7 | 0.8679245283018868 |
-| baseline | fixed | 49 | 43 | 27 | 43 | 6 | 0.8775510204081632 |
-| candidate | vulnerable | 44 | 41 | 24 | 35 | 3 | 0.9318181818181818 |
-| candidate | fixed | 42 | 41 | 24 | 41 | 1 | 0.9761904761904762 |
+| baseline | vulnerable | 53 | 46 | 27 | 41 | 7 | 0.868 |
+| baseline | fixed | 49 | 43 | 27 | 43 | 6 | 0.878 |
+| candidate | vulnerable | 44 | 41 | 24 | 35 | 3 | 0.932 |
+| candidate | fixed | 42 | 41 | 24 | 41 | 1 | 0.976 |
 
 ## Limitations
 
