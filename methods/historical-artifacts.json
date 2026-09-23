@@ -1,14 +1,50 @@
 {
-  "version": 1,
-  "hash_kind": "sha256-of-markdown-file-bytes",
+  "version": 2,
+  "hash_kind": "sha256-of-file-bytes",
   "files": [
     {
       "path": "m3-development-reject.md",
-      "sha256": "44bb9746063d0e16f09641f8acb707e834688385c78474aac6dac82cfce6f029"
+      "sha256": "07b54ed3a73df53f058ce45a1878c36bc46ded37e8e2a1f20b9d392b9016f282"
+    },
+    {
+      "path": "m3-development-reject.json",
+      "sha256": "fc2c2f6f59da3f52588e50dd1e0883d287c6d95ba0117c3148aabaf23396eaf4"
     },
     {
       "path": "m3-development-insufficient-evidence.md",
-      "sha256": "ff74bcec9a9ecebe6bfed45f9dfa37f986e35bb290944e20900ea08892630258"
+      "sha256": "c043ff56525c392c2a96dba6b0fa4e24e5cedf3dda0dc459d5b38cbebea7d084"
+    },
+    {
+      "path": "m3-development-insufficient-evidence.json",
+      "sha256": "d95fe083fc9523fdb9f9b1940003a5a777c9994a0bf2aebe02bce8946e809af7"
+    },
+    {
+      "path": "m2-eight-case-directional.md",
+      "sha256": "4ecf49ad03a5ec332b6f635c8c70ae7ce808f5f4dda81ee3b18f46936e6cba47"
+    },
+    {
+      "path": "m2-eight-case-directional.json",
+      "sha256": "13ae3954c0ee142951f1b9696b5ad074509d406eec920f019876e209534151fa"
+    }
+  ],
+  "replacements": [
+    {
+      "path": "m3-development-reject.md",
+      "date": "2026-09-23",
+      "previous_sha256": "44bb9746063d0e16f09641f8acb707e834688385c78474aac6dac82cfce6f029",
+      "previous_content_digest": "sha256:e4fde5f124e1ceb4400c486514641013db33768ddd868af680687fbeeafeaaf4",
+      "current_sha256": "07b54ed3a73df53f058ce45a1878c36bc46ded37e8e2a1f20b9d392b9016f282",
+      "current_content_digest": "sha256:d86cc844b750e3eb2cd6aa9e9068c3d2cad6742c5180a4ee3b589eb59bc8d313",
+      "note": "Report content changed: the 2026-08-25 regeneration (63 to 64 valid issues) replaces the 2026-08-21 publication, and the Markdown is re-rendered with fixed-precision numbers. See the Corrections section in methods/versions.md."
+    },
+    {
+      "path": "m3-development-insufficient-evidence.md",
+      "date": "2026-09-23",
+      "previous_sha256": "ff74bcec9a9ecebe6bfed45f9dfa37f986e35bb290944e20900ea08892630258",
+      "previous_content_digest": "sha256:c99a16cb6d8ea3a48561f6d6bb943a00ebbbe9d7e69992b95407be3abbf8a0ff",
+      "current_sha256": "c043ff56525c392c2a96dba6b0fa4e24e5cedf3dda0dc459d5b38cbebea7d084",
+      "current_content_digest": "sha256:c99a16cb6d8ea3a48561f6d6bb943a00ebbbe9d7e69992b95407be3abbf8a0ff",
+      "note": "Re-rendered with fixed-precision numbers from unchanged report JSON; the content digest is unchanged."
     }
   ]
 }

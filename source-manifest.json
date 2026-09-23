@@ -485,7 +485,7 @@
     },
     {
       "path": "scripts/check_source_manifest.py",
-      "sha256": "de3b6dc35f79c0e9631126fc50d343ca6bf58c0f9719ebd659fced68e6bae312",
+      "sha256": "322f9fe36dc26051f177893d96d971d5f09b4d6c68c96337a663a72b953571a2",
       "origin": "public implementation"
     },
     {
@@ -515,7 +515,7 @@
     },
     {
       "path": "tests/test_source_manifest.py",
-      "sha256": "d118ea305d09b9da4726e855abf0a93f91f01a5272551c3b39c855fb548807aa",
+      "sha256": "57002bbefad9dbfe6b2779e25859aa29bec91e0ff564cd9178707265b696fcb3",
       "origin": "public implementation"
     }
   ]

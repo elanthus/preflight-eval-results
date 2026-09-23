@@ -50,3 +50,14 @@ def test_manifest_rejects_replay_asset_drift(tmp_path: Path, asset: str, tamper:
         message = "unlisted implementation assets"
     with pytest.raises(SystemExit, match=message):
         verify(tmp_path)
+
+
+def test_manifest_rejects_a_stale_replacement_record(tmp_path: Path) -> None:
+    _copy_assets(tmp_path)
+    verify(tmp_path)
+    path = tmp_path / "methods/historical-artifacts.json"
+    historical = json.loads(path.read_text())
+    historical["replacements"][0]["current_sha256"] = "0" * 64
+    path.write_text(json.dumps(historical))
+    with pytest.raises(SystemExit, match="replacement record is stale"):
+        verify(tmp_path)

@@ -1,0 +1,105 @@
+{
+  "completion": {
+    "invalid_output_attempts": 20,
+    "output_limit_attempts": 13,
+    "permanent_failures": 18,
+    "provider_attempts": 195,
+    "retry_attempts": 15,
+    "successful_records": 162,
+    "terminal_failure_classes": {
+      "adapter_error_output_limit": 13,
+      "invalid_output_exhausted": 5
+    },
+    "terminal_records": 180
+  },
+  "execution_status": "complete_with_linked_recovery",
+  "experiment_digest": "sha256:b417aedfefc66ef205e6e00783c65574d88eda4511488d529c71e35fc74ce505",
+  "experiment_id": "experiment-b417aedfefc66ef205e6e00783c65574",
+  "protocol": {
+    "decision": "reject",
+    "decision_quality_analysis_eligible": true,
+    "frozen_invariant_changes": 0,
+    "holdout_outcomes_masked": true,
+    "incident_log": "incident-log.md",
+    "randomized_interleaved_order_executed": true,
+    "rerun_requires_new_spend_authorization": true
+  },
+  "provenance": {
+    "leakage_approved_records": 180,
+    "leakage_bypasses": 0,
+    "parsed_output_digests": 162,
+    "prepared_manifest_set_digest": "sha256:7c39ff91564b16b0af8eebd3e44258473cebd96a23e52efce68067cc1c9c11f3",
+    "prepared_prompt_manifests": 180,
+    "records_bound_to_frozen_experiment": 180,
+    "request_seeds_retained": 180,
+    "retained_raw_response_records": 0
+  },
+  "provider_accounting": {
+    "actual_cost_usd": null,
+    "maximum_input_tokens": 8640000,
+    "maximum_output_tokens": 46080000,
+    "maximum_provider_calls": 360,
+    "planned_input_tokens": 733950,
+    "price_table_version": "openai-gpt-5.4-2026-08-18",
+    "projected_cost_ceiling_usd": 855.36,
+    "request_id_available_records": 0,
+    "usage_available_records": 0
+  },
+  "recovery": {
+    "experiment_id": "experiment-fa306c79f18da9f1a1601802bee252a0",
+    "experiment_digest": "sha256:fa306c79f18da9f1a1601802bee252a0a34decbe167552f1624b9c743a4ca80e",
+    "selection": {
+      "source_terminal_failures": 18,
+      "output_limit_failures": 13,
+      "invalid_output_failures": 5
+    },
+    "completion": {
+      "planned_records": 18,
+      "terminal_records": 18,
+      "successful_records": 18,
+      "permanent_failures": 0,
+      "provider_attempts": 18,
+      "retry_attempts": 0
+    },
+    "effective_source_result": {
+      "planned_records": 180,
+      "successful_records": 180,
+      "permanent_failures": 0,
+      "primary_analysis_complete": true
+    },
+    "provider_accounting": {
+      "planned_input_tokens": 182814,
+      "maximum_provider_calls": 36,
+      "maximum_input_tokens": 864000,
+      "maximum_output_tokens": 4608000,
+      "usage_available_records": 0,
+      "request_id_available_records": 0,
+      "actual_cost_usd": null,
+      "projected_cost_ceiling_usd": 85.536,
+      "combined_projected_cost_ceiling_usd": 940.896,
+      "price_table_version": "openai-gpt-5.4-2026-08-18"
+    },
+    "adapter_capabilities_digest": "sha256:ef3ac97c722ced504d63669c1d44d0fde3a171d54147b98a8c0767c71b109c76",
+    "implementation_revision_changed": true,
+    "source_manifest_mutations": 0
+  },
+  "resume_validation": {
+    "controlled_initial_calls": 2,
+    "duplicate_provider_calls": 0,
+    "final_resume_calls_started": 0,
+    "terminal_records": 180,
+    "unplanned_provider_calls": 0
+  },
+  "schema_version": "1.0",
+  "scope": {
+    "authorized_scope": "15-development-case checkpoint",
+    "conditions_per_snapshot": 2,
+    "development_cases": 15,
+    "holdout_cases_executed": 0,
+    "issue_20_original_case_count": 24,
+    "issue_20_original_planned_records": 288,
+    "planned_records": 180,
+    "repetitions": 3,
+    "snapshots_per_case": 2
+  }
+}

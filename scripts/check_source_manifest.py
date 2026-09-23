@@ -1,4 +1,4 @@
-"""Verify exported provenance, public replay assets and historical report bytes."""
+"""Verify exported provenance, public replay assets, historical report bytes and replacements."""
 
 from __future__ import annotations
 
@@ -48,11 +48,16 @@ def verify(root: Path = ROOT) -> int:
         raise SystemExit(f"unlisted implementation assets: {', '.join(sorted(missing))}")
     historical = json.loads((root / "methods/historical-artifacts.json").read_text())
     _check_files(root, historical["files"], set())
+    # A replacement record must describe the file actually published now.
+    pinned = {entry["path"]: entry["sha256"] for entry in historical["files"]}
+    for replacement in historical.get("replacements", []):
+        if pinned.get(replacement["path"]) != replacement["current_sha256"]:
+            raise SystemExit(f"replacement record is stale: {replacement['path']}")
     return len(seen)
 
 
 def main() -> None:
-    print(f"Verified {verify()} implementation assets and unchanged historical reports")
+    print(f"Verified {verify()} implementation assets and pinned historical reports")
 
 
 if __name__ == "__main__":
