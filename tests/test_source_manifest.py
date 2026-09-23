@@ -52,12 +52,33 @@ def test_manifest_rejects_replay_asset_drift(tmp_path: Path, asset: str, tamper:
         verify(tmp_path)
 
 
-def test_manifest_rejects_a_stale_replacement_record(tmp_path: Path) -> None:
+@pytest.mark.parametrize(
+    ("field", "value", "message"),
+    [
+        ("current_sha256", "0" * 64, "replacement record is stale"),
+        ("current_content_digest", "sha256:" + "0" * 64, "replacement content digest is stale"),
+    ],
+)
+def test_manifest_rejects_a_stale_replacement_record(
+    tmp_path: Path, field: str, value: str, message: str
+) -> None:
     _copy_assets(tmp_path)
     verify(tmp_path)
     path = tmp_path / "methods/historical-artifacts.json"
     historical = json.loads(path.read_text())
-    historical["replacements"][0]["current_sha256"] = "0" * 64
+    historical["replacements"][0][field] = value
     path.write_text(json.dumps(historical))
-    with pytest.raises(SystemExit, match="replacement record is stale"):
+    with pytest.raises(SystemExit, match=message):
+        verify(tmp_path)
+
+
+def test_manifest_rejects_a_replacement_without_report_json(tmp_path: Path) -> None:
+    _copy_assets(tmp_path)
+    path = tmp_path / "methods/historical-artifacts.json"
+    historical = json.loads(path.read_text())
+    report = Path(historical["replacements"][0]["path"]).with_suffix(".json").as_posix()
+    historical["files"] = [entry for entry in historical["files"] if entry["path"] != report]
+    path.write_text(json.dumps(historical))
+    (tmp_path / report).unlink()
+    with pytest.raises(SystemExit, match="no report JSON"):
         verify(tmp_path)

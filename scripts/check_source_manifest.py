@@ -51,8 +51,17 @@ def verify(root: Path = ROOT) -> int:
     # A replacement record must describe the file actually published now.
     pinned = {entry["path"]: entry["sha256"] for entry in historical["files"]}
     for replacement in historical.get("replacements", []):
-        if pinned.get(replacement["path"]) != replacement["current_sha256"]:
-            raise SystemExit(f"replacement record is stale: {replacement['path']}")
+        path = replacement["path"]
+        if pinned.get(path) != replacement["current_sha256"]:
+            raise SystemExit(f"replacement record is stale: {path}")
+        report = (root / path).with_suffix(".json")
+        if not report.is_file():
+            raise SystemExit(f"replacement record has no report JSON: {path}")
+        if (
+            json.loads(report.read_text())["content_digest"]
+            != replacement["current_content_digest"]
+        ):
+            raise SystemExit(f"replacement content digest is stale: {path}")
     return len(seen)
 
 

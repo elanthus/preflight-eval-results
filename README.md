@@ -12,9 +12,10 @@ result unedited: **reject**.
 
 In plain terms: each of 15 test cases is a real bug in two versions of the same code, one
 with the bug and one with it fixed, and each was reviewed three times with the old review
-instructions and three times with the new ones. Across those 45 paired runs, the new
-instructions caught the bug once more than the old ones but also complained about
-already-fixed code twice more. That is no demonstrated benefit and a slight sign of harm, so
+instructions and three times with the new ones: 45 old-versus-new pairs for each version,
+90 pairs and 180 runs in all. On the buggy versions, the new instructions caught the bug
+once more than the old ones; on the fixed versions, they complained about already-fixed code
+twice more. That is no demonstrated benefit and a slight sign of harm, so
 the rule written down before the experiment said not to adopt them. The sample is small, and
 every interval includes zero.
 
