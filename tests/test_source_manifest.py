@@ -72,13 +72,14 @@ def test_manifest_rejects_a_stale_replacement_record(
         verify(tmp_path)
 
 
-def test_manifest_rejects_a_replacement_without_report_json(tmp_path: Path) -> None:
+def test_manifest_rejects_a_replacement_whose_report_json_is_unpinned(tmp_path: Path) -> None:
     _copy_assets(tmp_path)
     path = tmp_path / "methods/historical-artifacts.json"
     historical = json.loads(path.read_text())
     report = Path(historical["replacements"][0]["path"]).with_suffix(".json").as_posix()
     historical["files"] = [entry for entry in historical["files"] if entry["path"] != report]
     path.write_text(json.dumps(historical))
-    (tmp_path / report).unlink()
-    with pytest.raises(SystemExit, match="no report JSON"):
+    # The JSON stays on disk: presence alone must not satisfy the check.
+    assert (tmp_path / report).is_file()
+    with pytest.raises(SystemExit, match="report JSON is not pinned"):
         verify(tmp_path)

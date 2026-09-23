@@ -54,13 +54,12 @@ def verify(root: Path = ROOT) -> int:
         path = replacement["path"]
         if pinned.get(path) != replacement["current_sha256"]:
             raise SystemExit(f"replacement record is stale: {path}")
-        report = (root / path).with_suffix(".json")
-        if not report.is_file():
-            raise SystemExit(f"replacement record has no report JSON: {path}")
-        if (
-            json.loads(report.read_text())["content_digest"]
-            != replacement["current_content_digest"]
-        ):
+        # The JSON must itself be pinned, so its digest is read from hash-checked bytes.
+        report = Path(path).with_suffix(".json").as_posix()
+        if report not in pinned:
+            raise SystemExit(f"replacement report JSON is not pinned: {path}")
+        document = json.loads((root / report).read_text())
+        if document["content_digest"] != replacement["current_content_digest"]:
             raise SystemExit(f"replacement content digest is stale: {path}")
     return len(seen)
 
