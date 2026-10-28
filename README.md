@@ -113,10 +113,10 @@ excerpts.
 
 The [`evidence/dogfooding/`](evidence/dogfooding/) directory holds two immutable dogfooding
 evidence ledgers. `dogfooding-case-study-evidence.json` backs the two-week case study linked
-above and covers 2026-08-03 to 2026-08-17 (167 pull requests
-opened across four repositories, 122 with recorded use and 24 with a concrete finding), and
-`dogfooding-follow-up-2026-09-06-evidence.json` covers 2026-08-18 to 2026-09-06 (257 opened,
-201 with recorded use, 40 with a concrete finding). Each record preserves the classified
+above and covers 2026-08-03 to 2026-08-17 (167 pull requests opened across four repositories,
+122 with recorded use and 24 with a concrete finding). `dogfooding-follow-up-2026-09-06-evidence.json`
+is its follow-up and covers 2026-08-18 to 2026-09-06 (257 opened, 201 with recorded use, 40 with
+a concrete finding). Each record preserves the classified
 description excerpt. Pull request descriptions are mutable, so the files keep the excerpts as
 classified rather than re-fetching them. These ledgers describe product usage; they are
 separate from the pre-registered evaluation above and add no evidence for its decision.
