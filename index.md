@@ -26,7 +26,8 @@ dates under [Corrections](https://elanthus.github.io/preflight-eval-results/meth
 
 ## The question
 
-Agentic Preflight is a quality gate that runs an LLM review over a branch before it ships.
+[Agentic Preflight](https://pypi.org/project/agentic-preflight/) is a quality gate that runs
+an LLM review over a branch before it ships.
 The hypothesis: a candidate "adversarial" review profile would help the reviewer find real,
 known defects (better recall on vulnerable code) without making it hallucinate problems in
 code that had already been fixed (false positives on repaired code).
@@ -37,9 +38,9 @@ bugs" from "flags more of everything."
 ## Method
 
 - **Corpus.** 15 development cases reconstructed from real dogfooding evidence — the
-  observational record behind them is a separate two-week dogfooding case study built from
-  public pull-request records. Which findings became evaluation cases remains private.
-  Each case has a
+  observational record behind them is a separate two-week dogfooding case study in the
+  product's documentation, built from public pull-request records. Which findings became
+  evaluation cases remains private. Each case has a
   *vulnerable* snapshot (defect present) and a *fixed* snapshot (defect repaired). The fixed
   snapshot is a built-in false-positive control: a reviewer that claims the repaired defect
   is still present is measurably wrong.
@@ -168,8 +169,6 @@ Next step, when warranted: a revised candidate profile, informed by the explorat
 analysis, evaluated under a newly frozen experiment against the same discipline.
 
 ## Decisions I made
-
-<!-- DRAFT for the author: reword, cut, or reorder these before relying on them. -->
 
 - **The case is the unit of analysis.** Repeated runs of one case share its code and defect,
   so they are not independent evidence. Intervals come from a case-clustered bootstrap over
