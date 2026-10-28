@@ -99,8 +99,9 @@ The input-contract repair pinned by the public reference implementation’s
 implements reviewer bundle schema 2 and prompt manifest 1.3. It replaces case and snapshot fields with an opaque HMAC request identity.
 Snapshot-label checks apply to harness-controlled text; repository source may legitimately
 contain words such as `fixed` or `vulnerable`. Case IDs and source PR tokens remain forbidden
-on both surfaces. This describes that repair revision, not the historical M3 inputs or a
-claim that the repair has reached main.
+on both surfaces. This describes that repair revision, not the historical M3 inputs. The
+repair has since reached the private repository's main branch; the pinned revision is
+the pre-merge commit from that branch.
 
 The scorer still requires accepted path and location, category, severity, and adjudicated
 mechanism agreement for vulnerable primary hits. Fixed-control primary false positives use
