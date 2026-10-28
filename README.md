@@ -23,6 +23,7 @@ Read the full case study at **[elanthus.github.io/preflight-eval-results](https:
 
 *By Michael Swailes.*
 
+The product under test is [Agentic Preflight](https://github.com/elanthus/agentic-preflight).
 This repository publishes that case study, its aggregate reports, and the reusable evaluation
 library, with an offline synthetic replay you can run. The replay makes **zero model calls**.
 It reproduces the synthetic result exactly; the private inputs needed to reproduce the
@@ -102,6 +103,23 @@ JSON sits beside its Markdown. [Method versions](methods/versions.md) distinguis
 historical request contract, current leakage controls, and this synthetic replay, and list
 every correction with its date. Current fixes cannot retroactively establish properties such
 as complete provider blinding for an earlier run.
+
+The corpus came from real usage of the product. The observational record behind it is the
+[two-week dogfooding case study](https://github.com/elanthus/agentic-preflight/blob/main/docs/dogfooding-case-study.md)
+in the product repository; the ledgers under [Evidence](#evidence) preserve its classified
+excerpts.
+
+## Evidence
+
+The [`evidence/dogfooding/`](evidence/dogfooding/) directory holds two immutable dogfooding
+evidence ledgers. `dogfooding-case-study-evidence.json` backs the two-week case study linked
+above and covers 2026-08-03 to 2026-08-17 (167 pull requests
+opened across four repositories, 122 with recorded use and 24 with a concrete finding), and
+`dogfooding-follow-up-2026-09-06-evidence.json` covers 2026-08-18 to 2026-09-06 (257 opened,
+201 with recorded use, 40 with a concrete finding). Each record preserves the classified
+description excerpt. Pull request descriptions are mutable, so the files keep the excerpts as
+classified rather than re-fetching them. These ledgers describe product usage; they are
+separate from the pre-registered evaluation above and add no evidence for its decision.
 
 ## License
 

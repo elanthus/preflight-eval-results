@@ -10,7 +10,7 @@ Changing a contract requires a newly frozen experiment; it does not upgrade an o
 | Bundle schema 2 / prompt manifest 1.3 | Current exported implementation | Opaque HMAC request identity, scorer metadata excluded from reviewer input, labels checked on harness-controlled surfaces |
 | M3 v2 prepared | Prepared private protocol; not executed | Requires bundle schema 2 and a label-free prompt; no new outcome or holdout evidence |
 | `synthetic-replay-v1`, package 1.0.0 | Public runnable implementation | Byte-stable replay of invented paired outcomes using the exported scorer and statistics code |
-| Product `public-smoke-v2` | Separate synthetic CLI regression method | Neutral per-snapshot Git repositories and wrapper-level input checks; see the product's regression-eval documentation |
+| Product `public-smoke-v2` | Separate synthetic CLI regression method | Neutral per-snapshot Git repositories and wrapper-level input checks; see the product's [regression-eval documentation](https://github.com/elanthus/agentic-preflight/blob/main/docs/regression-eval.md) |
 
 ## Corrections
 
