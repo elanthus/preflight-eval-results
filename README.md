@@ -23,15 +23,15 @@ Read the full case study at **[elanthus.github.io/preflight-eval-results](https:
 
 *By Michael Swailes.*
 
-**Status, November 2026:** the experiment above is complete and its reject decision stands.
-A follow-up study of a revised profile, run through the shipped Agentic Preflight product,
-is prepared but paused for review. It has produced no results, and none are reported here.
-
 The product under test is [Agentic Preflight](https://github.com/elanthus/agentic-preflight).
 This repository publishes that case study, its aggregate reports, and the reusable evaluation
 library, with an offline synthetic replay you can run. The replay makes **zero model calls**.
 It reproduces the synthetic result exactly; the private inputs needed to reproduce the
 historical 15-case experiment are not included.
+
+**Status, November 2026:** the experiment above is complete and its reject decision stands.
+A follow-up study of a revised profile, run through the shipped Agentic Preflight product,
+is prepared but paused for review. It has produced no results, and none are reported here.
 
 ## Reproduce the example
 
