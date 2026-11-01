@@ -51,6 +51,10 @@ here once, oldest first. Other pages point here rather than restating them.
 - **2026-09-23: Luna and Terra.** The fixed-control audit's `Luna` and `Terra` actor labels
   correspond to the Codex models `gpt-5.6-luna` and `gpt-5.6-terra`; these are Codex model
   names, not dated model snapshots.
+- **2026-11-01: the holdout set was run in M3.1.** The case study's limitations said the
+  reserved holdout set remained unexecuted. That was true of M3 only. The later M3.1
+  follow-up ran the holdout set in a combined 22-case analysis, which ended in insufficient
+  evidence, as the [method and results write-up](method-and-results.md) states.
 
 ## Provenance and what cannot be reproduced
 
