@@ -155,7 +155,10 @@ exploratory measures do not change the primary adoption decision.
   operational rerun reported a $78.5711133 known-cost lower bound, but it does not recover
   the original experiment's cost.
 - Results cover a local development corpus; no holdout or large-context generalization is
-  claimed. A reserved holdout set exists and remains unexecuted.
+  claimed. M3 did not run the reserved holdout set of seven cases. According to the
+  operator's execution record, the later M3.1 follow-up ran that set in a combined 22-case
+  analysis, which ended in insufficient evidence; see the
+  [method and results write-up](https://elanthus.github.io/preflight-eval-results/methods/method-and-results.html).
 
 ## Why publish a negative result
 
